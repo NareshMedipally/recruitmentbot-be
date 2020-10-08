@@ -9,7 +9,7 @@ var login=require('./modules/common/login');
 var consultant_tag=require('./modules/users/tags');
 var path = require('path')
 
-var createcompany=require('./modules/enterprise/createcompany');
+var createcompany=require('./modules/enterprise/createCompany');
 
 const app = express();
 const port = process.env.PORT || 8080;
