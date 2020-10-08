@@ -1,5 +1,5 @@
 const express = require('express');
-const createcompnay = express.Router();
+const createcompany = express.Router();
 const multer = require('multer')
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
@@ -15,7 +15,7 @@ var storage = multer.diskStorage({
   //let upload = multer({dest:'uploads/'})
 
 
-  createcompnay.post('/createnewenterprise',upload.single('file'),(req,res) =>{
+  createcompany.post('/createnewenterprise',upload.single('file'),(req,res) =>{
     // var company={
     //     company_name : req.body.company_name,
     //     email_id: req.body.email_id,
@@ -41,4 +41,4 @@ var storage = multer.diskStorage({
     }
     })
 
-module.exports=createcompnay;
+module.exports=createcompany;
