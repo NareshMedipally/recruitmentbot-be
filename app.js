@@ -12,7 +12,7 @@ var path = require('path')
 var createcompany=require('./modules/enterprise/createCompany');
 
 const app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 5000;
 
 
 // const mkdrip = require('mkdirp')
