@@ -20,7 +20,7 @@ login.post('/user',function(req,res){
     if(email_id&&password){
         console.log(email_id);
         console.log(password);
-        dbConnection.query("SELECT * FROM users_login where email_id=? and password=? and expiry_date>=CURDATE()",[email_id, password], function (err, eresult, fields) 
+        dbConnection.query("SELECT * FROM user_profile where email_id=? and password=? and expiry_date>=CURDATE()",[email_id, password], function (err, eresult, fields) 
         {
             
             if(eresult.length>0)

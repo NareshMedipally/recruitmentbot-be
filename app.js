@@ -7,6 +7,7 @@ var updateuser = require('./modules/users/updateUser');
 var getusers=require('./modules/users/getUsers');
 var login=require('./modules/common/login');
 var consultant_tag=require('./modules/users/tags');
+var aiengine = require('./modules/ai-engine/getConsultantInfo')
 var path = require('path')
 
 var createcompany=require('./modules/enterprise/createCompany');
@@ -25,6 +26,7 @@ app.use(deleteuser);
 app.use(updateuser);
 app.use(getusers);
 app.use(login);
+app.use(aiengine);
 app.use(consultant_tag);
 app.use(createcompany);
 app.use(bodyParser.json());
