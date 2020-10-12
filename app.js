@@ -8,6 +8,7 @@ var getusers=require('./modules/users/getUsers');
 var create_enterprise = require('./modules/enterprise/createEnterprise');
 var get_enterprise = require('./modules/enterprise/getEnterprise');
 var delete_enterprise = require('./modules/enterprise/deleteEnterprise');
+var update_enterprise=require('./modules/enterprise/updateEnterprise');
 var login=require('./modules/common/login');
 var consultant_tag=require('./modules/users/tags');
 var path = require('path')
@@ -33,6 +34,7 @@ app.use(consultant_tag);
 app.use(create_enterprise);
 app.use(get_enterprise);
 app.use(delete_enterprise);
+app.use(update_enterprise);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 

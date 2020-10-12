@@ -18,10 +18,19 @@ delete_enterprise.delete('/deleteEnterprise/:correl_id',auth,function(req,res){
       }
       else
       {
-        res.status(200).json({
-          status:'success',
-          desc:'Record Deleted Successfully'
-        });
+        var sqladd = `DELETE FROM address WHERE correl_id="${correl_id}"`;
+        dbConnection.query(sqladd,function(err){
+          if(err)
+          {
+            throw err;
+          }else
+          {
+            res.status(200).json({
+              status:'success',
+              desc:'Record Deleted Successfully'
+            })
+          }
+        })
       }
     });
   });

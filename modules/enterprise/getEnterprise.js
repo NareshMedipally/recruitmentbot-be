@@ -19,10 +19,19 @@ get_enterprise.get('/getEnterprise/:correl_id',auth,function(req,res){
       }
       else
       {
-        res.status(200).json({
-          status:'success',
-          fields:cresult
-        });
+       var sqladd =`SELECT * FROM address WHERE correl_id="${correl_id}"`;
+       dbConnection.query(sqladd,function(err,aresult){
+         if(err){
+           throw err;
+         }
+         else
+         {
+          res.status(200).json({
+            status:'success',
+            fields:cresult,aresult
+          });
+         }
+       })
       }
     });
   });
@@ -42,9 +51,19 @@ get_enterprise.get('/getEnterprise',auth,function(req,res){
       }
       else
       {
-        res.status(200).json({
-          status:'success',
-          fields:cresult
+        var sqladd=`SELECT * FROM address`;
+        dbConnection.query(sqladd,function(err,aresult){
+          if(err){
+            throw err;
+          }
+          else
+          {
+            res.status(200).json({
+              status:'success',
+              fields:cresult,aresult
+              
+            })
+          }
         })
       }
     })

@@ -129,4 +129,33 @@ updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
 
 });
 
+
+
+
+/*update botstatus  based on email_id parameter*/
+
+updateuser.put('/botstatus',function(req,res){
+    var bot_status=req.body.bot_status;
+    var email_id = req.body.email_id;
+
+   var sqlbot=`UPDATE user_profile SET bot_status="${bot_status}" WHERE email_id="${email_id}"`;
+   dbConnection.query(sqlbot,function(err,bresult){
+       if(err)
+       {
+           throw err;
+       }
+       else
+       {
+        res.status(200).json(
+            {
+                status: 'success',
+                desc: 'Bot Status Updated Successfully'
+
+            }
+        )
+       }
+   })
+})
+
+
 module.exports = updateuser;
