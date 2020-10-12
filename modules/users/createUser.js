@@ -361,12 +361,12 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         looking_for_job:technology[0].looking_for_job,
         subject_tag:technology[0].subject_tag,
         non_subject_tag:technology[0].non_subject_tag,
-       // resume_loc:req.file.originalname,
+       resume_loc:technology[0].resume_loc,
         certificate_loc: '',
         
     }
         var direc_loc="profiles/"
-        var resume_loc='resume';
+        var resume_loc=req.file;
         
         var filename = direc_loc.concat(resume_loc)
         console.log(filename);
