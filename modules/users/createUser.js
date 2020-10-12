@@ -323,10 +323,10 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
     var user_data = {
         first_name: generalInfo[0].first_name,
         last_name: generalInfo[0].last_name,
-         email_id: contactInfo[0].req.body.email_id,
+         email_id: contactInfo[0].email_id,
         // created_user:req.body.created_user,
         company_name: req.body.company_name,
-        phone: contactInfo[0].req.body.phone,
+        phone: contactInfo[0].phone,
         dob:generalInfo[0].dob,
         education:generalInfo[0].education,
         rate:generalInfo[0].rate,
