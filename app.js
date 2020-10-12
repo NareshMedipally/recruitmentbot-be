@@ -5,12 +5,15 @@ var createuser = require('./modules/users/createUser');
 var deleteuser = require('./modules/users/deleteUser');
 var updateuser = require('./modules/users/updateUser');
 var getusers=require('./modules/users/getUsers');
+var create_enterprise = require('./modules/enterprise/createEnterprise');
+var get_enterprise = require('./modules/enterprise/getEnterprise');
+var delete_enterprise = require('./modules/enterprise/deleteEnterprise');
+var update_enterprise=require('./modules/enterprise/updateEnterprise');
 var login=require('./modules/common/login');
 var consultant_tag=require('./modules/users/tags');
-var aiengine = require('./modules/ai-engine/getConsultantInfo')
 var path = require('path')
 
-var createcompany=require('./modules/enterprise/createCompany');
+//var createcompany=require('./modules/enterprise/createCompany');
 
 const app = express();
 const port = process.env.PORT || 5000;
@@ -26,9 +29,12 @@ app.use(deleteuser);
 app.use(updateuser);
 app.use(getusers);
 app.use(login);
-app.use(aiengine);
 app.use(consultant_tag);
-app.use(createcompany);
+// app.use(createcompany);
+app.use(create_enterprise);
+app.use(get_enterprise);
+app.use(delete_enterprise);
+app.use(update_enterprise);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 
