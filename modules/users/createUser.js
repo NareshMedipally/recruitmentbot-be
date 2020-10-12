@@ -316,54 +316,57 @@ createuser.post('/createuser',auth, function (req, res) {
 createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(req,res){
     console.log("req.body",req.body)
 
-
+    var generalInfo = JSON.parse(req.body.generalInfo)
+    var contactInfo = JSON.parse(req.body.contactInfo)
+    var technology = JSON.parse(req.body.technology)
+    var otherInfo = JSON.parse(req.body.otherInfo)
     var user_data = {
-        first_name: req.body.first_name,
-        last_name: req.body.last_name,
-        email_id: req.body.email_id,
-        created_user:req.body.created_user,
+        first_name: generalInfo[0].first_name,
+        last_name: generalInfo[0].last_name,
+         email_id: contactInfo[0].req.body.email_id,
+        // created_user:req.body.created_user,
         company_name: req.body.company_name,
-        phone: req.body.phone,
-        dob:req.body.dob,
-        education:req.body.education,
-        rate:req.body.rate,
-        relocation:req.body.relocation,
-        visa_status:req.body.visa_status,
-        visa_copy_loc:req.body.visa_copy_loc,
-        visa_valid_from:req.body.visa_valid_from,
-        visa_valid_to:req.body.visa_valid_to,
-        DL_copy:req.body.DL_copy,
-        DL_valid_from:req.body.DL_valid_from,
-        DL_valid_to:req.body.DL_valid_to,
+        phone: contactInfo[0].req.body.phone,
+        dob:generalInfo[0].dob,
+        education:generalInfo[0].education,
+        rate:generalInfo[0].rate,
+        relocation:contactInfo[0].relocation,
+        visa_status:otherInfo[0].visa_status,
+        visa_copy_loc:otherInfo[0].visa_copy_loc,
+        visa_valid_from:otherInfo[0].visa_valid_from,
+        visa_valid_to:otherInfo[0].visa_valid_to,
+        DL_copy:otherInfo[0].DL_copy,
+        DL_valid_from:otherInfo[0].DL_valid_from,
+        DL_valid_to:otherInfo[0].DL_valid_to,
         role_id: req.body.role_type,
-        expiry_date: req.body.expiry_date,
+        expiry_date:generalInfo[0].expiry_date,
         email_template:req.body.email_template,
         comments: req.body.comments
     }
     var address = 
     {
-        address_line_1:req.body.address_line_1,
-        address_line_2:req.body.address_line_2,
-        zipcode:req.body.zipcode,
-        city:req.body.city
+        address_line_1:contactInfo[0].address_line_1,
+        address_line_2:contactInfo[0].address_line_2,
+        zipcode:contactInfo[0].zipcode,
+        city:contactInfo[0].city
     }
     var technology =
     {
-        total_experience:req.body.total_experience,
-        usa_experience:req.body.usa_experience,
-        marketing_phone:req.body.marketing_phone,
-        marketing_email_id:req.body.marketing_email_id,
-        linkedIn_url:req.body.linkedIn_url,
+        total_experience:technology[0].total_experience,
+        usa_experience:technology[0].usa_experience,
+        marketing_phone:technology[0].marketing_phone,
+        marketing_email_id:technology[0].marketing_email_id,
+        linkedIn_url:technology[0].linkedIn_url,
         tags:req.body.tags,
-        looking_for_job:req.body.looking_for_job,
-        subject_tag:req.body.subject_tag,
-        non_subject_tag:req.body.non_subject_tag,
+        looking_for_job:technology[0].looking_for_job,
+        subject_tag:technology[0].subject_tag,
+        non_subject_tag:technology[0].non_subject_tag,
        // resume_loc:req.file.originalname,
-        certificate_loc:req.body.certificate_loc,
+        certificate_loc:technology[0].certificate_loc,
         
     }
         var direc_loc="profiles/"
-        var resume_loc=technology.resume_loc;
+        var resume_loc=technology[0].resume_loc;
         
         var filename = direc_loc.concat(resume_loc)
         console.log(filename);
