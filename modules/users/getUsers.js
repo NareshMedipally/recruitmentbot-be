@@ -1,3 +1,4 @@
+const e = require('express');
 const express = require('express');
 const getusers = express.Router();
 var dbConnection = require('../../db/dbconfig');
@@ -21,7 +22,7 @@ getusers.get('/getusers',auth, function (req, res) {
 
 })
 
-/*get single user based on corel_id parameter*/
+/*get single user based on correl_id parameter*/
 
 getusers.get('/getuser/:correl_id',auth, function (req, res) {
 
@@ -29,7 +30,7 @@ getusers.get('/getuser/:correl_id',auth, function (req, res) {
 
     var sql = `SELECT * FROM user_profile WHERE correl_id="${correl_id}"`;
     dbConnection.query(sql, function (err, uresult) {
-        console.log(rows)
+        console.log(uresult)
         if (err) 
         {
             throw err;
@@ -70,6 +71,53 @@ getusers.get('/company/getuser/:company_name',auth,function(req,res){
 
     });
 })
+
+
+
+/*get single Consultant based on correl_id parameter*/
+
+getusers.get('/getconsultant/:correl_id',auth, function (req, res) {
+
+    var correl_id = req.params.correl_id;
+
+    var sql = `SELECT * FROM user_profile WHERE correl_id="${correl_id}"`;
+    dbConnection.query(sql, function (err, uresult) {
+        console.log(uresult)
+        if (err) 
+        {
+            throw err;
+        }
+        else
+        {
+            var sqladd = `SELECT * FROM address WHERE correl_id="${correl_id}"`;
+            dbConnection.query(sqladd,function(err,addresult){
+                if(err)
+                {
+                    throw err;
+                }
+                else
+                {
+                    var sqltech = `SELECT * FROM technology WHERE correl_id="${correl_id}"`;
+                    dbConnection.query(sqltech,function(err,techresult){
+                        if(err)
+                        {
+                            throw err;
+                        }else
+                        {
+                            res.status(200).json({
+                                status:'Success',
+                                fields: uresult,techresult,addresult
+                                
+                            });
+                        }
+                    })
+                }
+            })
+        }
+
+    });
+});
+
 
 
 
