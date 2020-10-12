@@ -314,6 +314,7 @@ createuser.post('/createuser',auth, function (req, res) {
 /* POST Consultant User */
 
 createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(req,res){
+    console.log("req.body",req.body)
 
 
     var user_data = {
@@ -357,7 +358,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         looking_for_job:req.body.looking_for_job,
         subject_tag:req.body.subject_tag,
         non_subject_tag:req.body.non_subject_tag,
-        resume_loc:req.file.originalname,
+       // resume_loc:req.file.originalname,
         certificate_loc:req.body.certificate_loc,
         
     }
