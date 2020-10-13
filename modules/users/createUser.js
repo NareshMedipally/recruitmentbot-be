@@ -393,8 +393,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                 if (cresult.length < 1) {
                     if(req.file)
                     {
-                        var sql = "INSERT INTO user_profile(correl_id,role_id,first_name,last_name,email_id,created_user,company_name,phone,dob,education,rate,relocation,visa_status,visa_copy_loc,visa_valid_from,visa_valid_to,DL_copy,DL_valid_from,DL_valid_to,comments,email_template,role_type,expiry_date,password,first_time_login) VALUES ?";
-                        var VALUES = [[correl_id, user_data.role_id, user_data.first_name, user_data.last_name, user_data.email_id, user_data.created_user,user_data.company_name, user_data.phone,user_data.dob,user_data.education,user_data.rate,user_data.relocation,user_data.visa_status,user_data.visa_copy_loc,user_data.visa_valid_from,user_data.visa_valid_to,user_data.DL_copy,user_data.DL_valid_from,user_data.DL_valid_to, user_data.comments,user_data.email_template, role_type, user_data.expiry_date, password, first_time_login]]
+                        var sql = "INSERT INTO user_profile(correl_id,role_id,first_name,last_name,email_id,created_user,company_name,phone,dob,education,rate,relocation,visa_status,visa_copy_loc,visa_valid_from,visa_valid_to,DL_copy,DL_valid_from,DL_valid_to,comments,email_template,role_type,expiry_date,password,first_time_login,primary_email_id) VALUES ?";
+                        var VALUES = [[correl_id, user_data.role_id, user_data.first_name, user_data.last_name, user_data.email_id, user_data.created_user,user_data.company_name, user_data.phone,user_data.dob,user_data.education,user_data.rate,user_data.relocation,user_data.visa_status,user_data.visa_copy_loc,user_data.visa_valid_from,user_data.visa_valid_to,user_data.DL_copy,user_data.DL_valid_from,user_data.DL_valid_to, user_data.comments,user_data.email_template, role_type, user_data.expiry_date, password, first_time_login,'']]
                         dbConnection.query(sql, [VALUES], function (err, insresult) {
                             if(err){
                                 throw err;
