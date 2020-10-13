@@ -324,7 +324,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         first_name: generalInfo[0].first_name,
         last_name: generalInfo[0].last_name,
          email_id: contactInfo[0].email_id,
-        // created_user:req.body.created_user,
+         created_user:generalInfo[0].created_user,
         company_name: req.body.company_name,
         phone: contactInfo[0].phone,
         dob:generalInfo[0].dob,
@@ -357,7 +357,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         marketing_phone:technology[0].marketing_phone,
         marketing_email_id:technology[0].marketing_email_id,
         linkedIn_url:technology[0].linkedIn_url,
-        tags:"test1",
+        tags:technology[0].tags,
         looking_for_job:technology[0].looking_for_job,
         subject_tag:technology[0].subject_tag,
         non_subject_tag:technology[0].non_subject_tag,
@@ -407,6 +407,30 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                         throw err;
                                     }
                                     else{
+                                        if(technology.length > 1){
+                                            for (var i =0 ;i< technology.length ; i++){
+                                                var tech = technology[i]
+                                                var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
+                                                var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,filename,tech.certificate_loc,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
+                                                dbConnection.query(sqltech,[VALUES],function(err,tresult){
+                                                    if (err) {
+                                                        throw err;
+                                                    }
+                                                    else {
+                                                       console.log("success")
+                                                    }
+                                                })   
+                                            }
+                                            res.status(200).json(
+                                                {
+                                                    status: 'success',
+                                                    desc: 'User Created Successfully'
+                    
+                                                }
+                                            )
+
+                                        }else{
+
                                         var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
                                         var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,filename,technology.certificate_loc,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag,user_data.email_id,'Technology']];
                                         dbConnection.query(sqltech,[VALUES],function(err,tresult){
@@ -414,35 +438,6 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                                 throw err;
                                             }
                                             else {
-                        
-                                                // readHTMLFile(__dirname + templatePath, function (err, html) {
-                                                //     var template = handlebars.compile(html);
-                                                //     var replacements =
-                                                //     {
-                                                //         name: user_data.first_name,
-                                                //         username: user_data.email_id,
-                                                //         password: password
-                                                //     };
-                                                //     var htmlToSend = template(replacements);
-                                                //     var mailOptions =
-                                                //     {
-                                                //         from: 'mounika.impaxive@gmail.com',
-                                                //         to: user_data.email_id,
-                                                //         subject: 'Sending Email using Node.js',
-                                                //         html: htmlToSend
-                                                //     };
-                        
-                                                //     transporter.sendMail(mailOptions, function (error, info) {
-                                                //         if (error) {
-                                                //             console.log(error);
-                                                //         } else {
-                                                //             console.log('Email sent to : ' + user_data.email_id + info.response);
-                                                //             resp_body.status = 'success';
-                                                //             resp_body.msg = 'Consultatnt Created Successfully';
-                                                //             res.status(200).send([resp_body.status, resp_body.msg]);
-                                                //         }
-                                                //     });
-                                                // });
                                                 res.status(200).json(
                                                     {
                                                         status: 'success',
@@ -453,6 +448,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                             }
                                         })
                                     }
+                                }
                                 })
                             }
                         });
