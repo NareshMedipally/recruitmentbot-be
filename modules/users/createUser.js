@@ -368,7 +368,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         var direc_loc="profiles/"
         var resume_loc=req.file;
         
-        var filename = direc_loc.concat(resume_loc)
+       // var filename = direc_loc.concat(resume_loc)
+        var filename = "test"
         console.log(filename);
         var tags=[technology.tags];
         if (user_data.role_id == 4) {
@@ -399,8 +400,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                 throw err;
                             }
                             else{
-                                var sqladd = "INSERT INTO address(correl_id,name,email_id,address_line_1,address_line_2,zipcode,city) VALUES ?";
-                                var VALUES = [[correl_id,user_data.company_name,user_data.email_id,address.address_line_1,address.address_line_2,address.zipcode,address.city]];
+                                var sqladd = "INSERT INTO address(correl_id,name,type,email_id,address_line_1,address_line_2,zipcode,city) VALUES ?";
+                                var VALUES = [[correl_id,user_data.first_name,'consultant',user_data.email_id,address.address_line_1,address.address_line_2,address.zipcode,address.city]];
                                 dbConnection.query(sqladd,[VALUES],function(err,aresult){
                                     if(err){
                                         throw err;
