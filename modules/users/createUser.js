@@ -394,7 +394,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                     if(req.file)
                     {
                         var sql = "INSERT INTO user_profile(correl_id,role_id,first_name,last_name,email_id,created_user,company_name,phone,dob,education,rate,relocation,visa_status,visa_copy_loc,visa_valid_from,visa_valid_to,DL_copy,DL_valid_from,DL_valid_to,comments,email_template,role_type,expiry_date,password,first_time_login,primary_email_id) VALUES ?";
-                        var VALUES = [[correl_id, user_data.role_id, user_data.first_name, user_data.last_name, user_data.email_id, user_data.created_user,user_data.company_name, user_data.phone,user_data.dob,user_data.education,user_data.rate,user_data.relocation,user_data.visa_status,user_data.visa_copy_loc,user_data.visa_valid_from,user_data.visa_valid_to,user_data.DL_copy,user_data.DL_valid_from,user_data.DL_valid_to, user_data.comments,user_data.email_template, role_type, user_data.expiry_date, password, first_time_login,'']]
+                        var VALUES = [[correl_id, user_data.role_id, user_data.first_name, user_data.last_name, user_data.email_id, user_data.created_user,user_data.company_name, user_data.phone,user_data.dob,user_data.education,user_data.rate,user_data.relocation,user_data.visa_status,user_data.visa_copy_loc,user_data.visa_valid_from,user_data.visa_valid_to,user_data.DL_copy,user_data.DL_valid_from,user_data.DL_valid_to, user_data.comments,user_data.email_template, role_type, user_data.expiry_date, password, first_time_login,null]]
                         dbConnection.query(sql, [VALUES], function (err, insresult) {
                             if(err){
                                 throw err;
@@ -407,8 +407,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                         throw err;
                                     }
                                     else{
-                                        var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag) VALUES ?";
-                                        var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,filename,technology.certificate_loc,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag]];
+                                        var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
+                                        var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,filename,technology.certificate_loc,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag,user_data.email_id,'Technology']];
                                         dbConnection.query(sqltech,[VALUES],function(err,tresult){
                                             if (err) {
                                                 throw err;
