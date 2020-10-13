@@ -367,9 +367,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
     }
        // var direc_loc="profiles/"
         console.log('req.file',req.file.path);
-        var resume_loc=req.file.path;
-        
-        var filename = direc_loc.concat(resume_loc)
+        var filename = req.file.path;
        // var filename = "test"
         console.log(filename);
         var tags=[technology.tags];
