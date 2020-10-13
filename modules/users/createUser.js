@@ -318,7 +318,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
 
     var generalInfo = JSON.parse(req.body.generalInfo)
     var contactInfo = JSON.parse(req.body.contactInfo)
-    var technology = JSON.parse(req.body.technology)
+    var technologyInfo = JSON.parse(req.body.technology)
     var otherInfo = JSON.parse(req.body.otherInfo)
     var user_data = {
         first_name: generalInfo[0].first_name,
@@ -352,16 +352,16 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
     }
     var technology =
     {
-        total_experience:technology[0].total_experience,
-        usa_experience:technology[0].usa_experience,
-        marketing_phone:technology[0].marketing_phone,
-        marketing_email_id:technology[0].marketing_email_id,
-        linkedIn_url:technology[0].linkedIn_url,
-        tags:technology[0].tags,
-        looking_for_job:technology[0].looking_for_job,
-        subject_tag:technology[0].subject_tag,
-        non_subject_tag:technology[0].non_subject_tag,
-       resume_loc:technology[0].resume_loc,
+        total_experience:technologyInfo[0].total_experience,
+        usa_experience:technologyInfo[0].usa_experience,
+        marketing_phone:technologyInfo[0].marketing_phone,
+        marketing_email_id:technologyInfo[0].marketing_email_id,
+        linkedIn_url:technologyInfo[0].linkedIn_url,
+        tags:technologyInfo[0].tags,
+        looking_for_job:technologyInfo[0].looking_for_job,
+        subject_tag:technologyInfo[0].subject_tag,
+        non_subject_tag:technologyInfo[0].non_subject_tag,
+       resume_loc:technologyInfo[0].resume_loc,
         certificate_loc: '',
         
     }
@@ -407,7 +407,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                         throw err;
                                     }
                                     else{
-                                        if(technology.length > 1){
+                                        if(technologyInfo.length > 1){
                                             for (var i =0 ;i< technology.length ; i++){
                                                 var tech = technology[i]
                                                 var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
