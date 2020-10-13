@@ -368,8 +368,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         var direc_loc="profiles/"
         var resume_loc=req.file;
         
-       // var filename = direc_loc.concat(resume_loc)
-        var filename = "test"
+        var filename = direc_loc.concat(resume_loc)
+       // var filename = "test"
         console.log(filename);
         var tags=[technology.tags];
         if (user_data.role_id == 4) {
