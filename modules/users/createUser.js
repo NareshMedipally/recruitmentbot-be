@@ -357,7 +357,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         marketing_phone:technology[0].marketing_phone,
         marketing_email_id:technology[0].marketing_email_id,
         linkedIn_url:technology[0].linkedIn_url,
-        tags:req.body.tags,
+        tags:"test1",
         looking_for_job:technology[0].looking_for_job,
         subject_tag:technology[0].subject_tag,
         non_subject_tag:technology[0].non_subject_tag,
