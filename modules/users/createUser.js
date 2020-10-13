@@ -408,8 +408,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                     }
                                     else{
                                         if(technologyInfo.length > 1){
-                                            for (var i =0 ;i< technology.length ; i++){
-                                                var tech = technology[i]
+                                            for (var i =0 ;i< technologyInfo.length ; i++){
+                                                var tech = technologyInfo[i]
                                                 var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
                                                 var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,filename,tech.certificate_loc,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
                                                 dbConnection.query(sqltech,[VALUES],function(err,tresult){
