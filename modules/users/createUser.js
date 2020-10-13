@@ -366,6 +366,7 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         
     }
         var direc_loc="profiles/"
+        console.log('req.file',req.file);
         var resume_loc=req.file;
         
         var filename = direc_loc.concat(resume_loc)
