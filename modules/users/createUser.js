@@ -9,17 +9,31 @@ const multer = require('multer');
 var templatePath = './../../assets/welcome_email.html';
 var handlebars = require('handlebars');
 var fs = require('fs');
+const path = require('path');
 
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
-
-     cb(null, 'profiles')
+        if(file.fieldname == "resume")
+            {
+            cb(null, path.join(__dirname, '../../uploads/profiles'))
+            }
+           else if(file.fieldname == "certificate")
+           {
+               cb(null,  path.join(__dirname, '../../uploads/certificates'));
+           }
+           else if(file.fieldname == "driving_license")
+           {
+               cb(null,  path.join(__dirname, '../../uploads/driving_docs'))
+           }else if(file.fieldname == "visa")
+           {
+               cb(null, path.join(__dirname, '../../uploads/visa_docs'))
+           }
     },
     filename:(req,file,cb) =>{
-      cb(null,file.originalname)
+      cb(null,Date.now() + file.originalname)
     }
   })
-const upload = multer({storage})
+let upload = multer({storage})
 var readHTMLFile = function (path, callback) {
     fs.readFile(path, { encoding: 'utf-8' }, function (err, html) {
         if (err) {
@@ -312,14 +326,33 @@ createuser.post('/createuser',auth, function (req, res) {
 
 
 /* POST Consultant User */
-
-createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(req,res){
+var cpUpload = upload.fields([{ name: 'resume', maxCount: 10 }, { name: 'certificate', maxCount: 8 },{ name: 'driving_license', maxCount: 1 },{name: 'visa', maxCount: 1}])
+createuser.post('/createconsultant',cpUpload,auth,function(req,res){
     console.log("req.body",req.body)
-
+console.log("res.file",req.files)
+if(req.files){
     var generalInfo = JSON.parse(req.body.generalInfo)
     var contactInfo = JSON.parse(req.body.contactInfo)
     var technologyInfo = JSON.parse(req.body.technology)
     var otherInfo = JSON.parse(req.body.otherInfo)
+    var resumeFile ="";
+    var certificateFile ="";
+    var drivingLicenseFile="";
+    var visaFile = "";
+    if(req.files.resume){
+         resumeFile = req.files.resume? req.files.resume:'';
+    }
+    if(req.files.certificate){
+         certificateFile = req.files.certificate?req.files.certificate:'';
+    }
+    if(req.files.driving_license){
+         drivingLicenseFile =req.files.driving_license[0]?req.files.driving_license[0]:''
+    }
+    if(req.files.visa){
+         visaFile =req.files.visa[0]?req.files.visa[0]:""
+    }
+    
+
     var user_data = {
         first_name: generalInfo[0].first_name,
         last_name: generalInfo[0].last_name,
@@ -332,10 +365,10 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         rate:generalInfo[0].rate,
         relocation:contactInfo[0].relocation,
         visa_status:otherInfo[0].visa_status,
-        visa_copy_loc:otherInfo[0].visa_copy_loc,
+        visa_copy_loc:visaFile?visaFile.path:'',
         visa_valid_from:otherInfo[0].visa_valid_from,
         visa_valid_to:otherInfo[0].visa_valid_to,
-        DL_copy:otherInfo[0].DL_copy,
+        DL_copy:drivingLicenseFile? drivingLicenseFile.path:'',
         DL_valid_from:otherInfo[0].DL_valid_from,
         DL_valid_to:otherInfo[0].DL_valid_to,
         role_id: req.body.role_type,
@@ -361,15 +394,11 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
         looking_for_job:technologyInfo[0].looking_for_job,
         subject_tag:technologyInfo[0].subject_tag,
         non_subject_tag:technologyInfo[0].non_subject_tag,
-       resume_loc:technologyInfo[0].resume_loc,
-        certificate_loc: '',
+        resume_loc:resumeFile?resumeFile[0].path:'',
+        certificate_loc: certificateFile?certificateFile[0].path:'',
         
     }
-       // var direc_loc="profiles/"
-        console.log('req.file',req.file.path);
-        var filename = req.file.path;
-       // var filename = "test"
-        console.log(filename);
+       
         var tags=[technology.tags];
         if (user_data.role_id == 4) {
             role_type = "Consultant";
@@ -390,8 +419,8 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
             var first_time_login = 'Y';
             dbConnection.query("SELECT * from user_profile WHERE email_id=?", [user_data.email_id], function (err, cresult, fields) {
                 if (cresult.length < 1) {
-                    if(req.file)
-                    {
+                    // if(req.file)
+                    // {
                         var sql = "INSERT INTO user_profile(correl_id,role_id,first_name,last_name,email_id,created_user,company_name,phone,dob,education,rate,relocation,visa_status,visa_copy_loc,visa_valid_from,visa_valid_to,DL_copy,DL_valid_from,DL_valid_to,comments,email_template,role_type,expiry_date,password,first_time_login,primary_email_id) VALUES ?";
                         var VALUES = [[correl_id, user_data.role_id, user_data.first_name, user_data.last_name, user_data.email_id, user_data.created_user,user_data.company_name, user_data.phone,user_data.dob,user_data.education,user_data.rate,user_data.relocation,user_data.visa_status,user_data.visa_copy_loc,user_data.visa_valid_from,user_data.visa_valid_to,user_data.DL_copy,user_data.DL_valid_from,user_data.DL_valid_to, user_data.comments,user_data.email_template, role_type, user_data.expiry_date, password, first_time_login,null]]
                         dbConnection.query(sql, [VALUES], function (err, insresult) {
@@ -409,8 +438,10 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                         if(technologyInfo.length > 1){
                                             for (var i =0 ;i< technologyInfo.length ; i++){
                                                 var tech = technologyInfo[i]
+                                                var resume = resumeFile ? resumeFile[i].path :'';
+                                                var certificate = certificateFile ? certificateFile[i].path:'';
                                                 var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
-                                                var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,filename,tech.certificate_loc,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
+                                                var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,resume,certificate,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
                                                 dbConnection.query(sqltech,[VALUES],function(err,tresult){
                                                     if (err) {
                                                         throw err;
@@ -429,9 +460,10 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                             )
 
                                         }else{
-
+                                            var resume = resumeFile ? resumeFile[0].path :'';
+                                            var certificate = certificateFile ? certificateFile[0].path:'';
                                         var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
-                                        var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,filename,technology.certificate_loc,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag,user_data.email_id,'Technology']];
+                                        var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,resume,certificate,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag,user_data.email_id,'Technology']];
                                         dbConnection.query(sqltech,[VALUES],function(err,tresult){
                                             if (err) {
                                                 throw err;
@@ -451,15 +483,15 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                                 })
                             }
                         });
-                    }else
-                    {
-                        res.status(409).json(
-                            {
-                                status:'failed',
-                                desc:'No file Upload'
-                            }
-                        )
-                    }
+                    // }else
+                    // {
+                    //     res.status(409).json(
+                    //         {
+                    //             status:'failed',
+                    //             desc:'No file Upload'
+                    //         }
+                    //     )
+                    // }
                 }
                 else {
                     res.status(200).json(
@@ -482,6 +514,16 @@ createuser.post('/createconsultant',upload.single('resume_loc'),auth,function(re
                 }
             )
         }
+    }else{
+        console.log("no file found");
+        res.status(409).json(
+            {
+                            status:'failed',
+                            desc:'No file Upload'
+                        
+            }
+        )
+    }
     })
 
 module.exports=createuser;
