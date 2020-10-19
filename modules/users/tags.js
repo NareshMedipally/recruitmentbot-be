@@ -150,10 +150,10 @@ consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
     var tag_name=req.body.tag_name;
     var tag_desc=req.body.tag_desc;
     var tag_type=req.body.tag_type;
-    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=? AND tag_id=?",[company_name,tag_name,tag_id],
+    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name],
     function(err,tresult){
         console.log(tresult);
-        if(tresult.length>1)
+        if(tresult.length>0)
         {
             res.status(200).json(
                 {

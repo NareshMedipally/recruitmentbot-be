@@ -51,7 +51,7 @@ var storage = multer.diskStorage({
     dbConnection.query("SELECT * FROM company WHERE email_id=? AND company_name=?",[company.email_id,company.company_name],
     function(err,cresult){
         console.log(cresult)
-        if(cresult.length>1)
+        if(cresult.length>0)
         {
             
             res.status(200).json(
