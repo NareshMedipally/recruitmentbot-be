@@ -8,7 +8,7 @@ var auth = require('../../middleware/auth');
 
 
 
-
+var maxSize =  1024 * 1024;
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
       
@@ -18,13 +18,19 @@ var storage = multer.diskStorage({
       cb(null,file.originalname)
     }
   })
-  const upload = multer({storage})
+  const upload = multer({storage,limits: { fileSize: maxSize }})
 
 
   var correl_id = uniqid();
 
 
-  create_enterprise.post('/createEnterprise',upload.single('company_logo'),function(req,res){
+
+var logoupload=upload.fields([{name:'company_logo',maxCount: 1}])
+create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
+    var logoFile ="";
+    if(req.files.company_logo){
+        logoFile = req.files.company_logo? req.files.company_logo:'';
+    }
     var company={
       company_name : req.body.company_name,
       email_id: req.body.email_id,
@@ -35,7 +41,7 @@ var storage = multer.diskStorage({
       valid_from:req.body.valid_from,
       valid_to:req.body.valid_to,
       comments : req.body.comments,
-      company_logo:req.file.originalname
+      company_logo:logoFile?logoFile[0].originalname:'',
     
   }
     var address ={
@@ -50,17 +56,16 @@ var storage = multer.diskStorage({
         var filename = direc_loc.concat(company_logo)
         console.log(filename);
         
-    console.log(filename);
     dbConnection.query("SELECT * FROM  company WHERE company_name=?",[company.company_name],
     function(err,cresult){
         if(cresult.length<1)
         {
         dbConnection.query("SELECT * FROM company WHERE email_id=?",[company.email_id],
         function(err,result){
-            if(result.length<1)
+            if(result.length>1)
             {
-            if(req.file)
-            {
+            // if(req.file)
+            // {
             var sqlcom="INSERT INTO company(correl_id,company_name,company_logo,email_id,linkedIn_url,website_url,phone,tax_id,valid_from,valid_to,comments) VALUES ?";
             var VALUES=[[correl_id,company.company_name,filename,company.email_id,company.linkedIn_url,company.website_url,company.phone,company.tax_id,company.valid_from,company.valid_to,company.comments]];
             dbConnection.query(sqlcom,[VALUES],function(err){
@@ -80,6 +85,7 @@ var storage = multer.diskStorage({
                     res.status(200).json
                     (
                         {
+                        result_code:200,
                         status:'success',
                         desc:'Record Inserted Successfully'
                         }
@@ -88,17 +94,18 @@ var storage = multer.diskStorage({
                 })
                 }
             })
-            }else{
-            res.status(409).json({
-                status:'failed',
-                desc:'No file Upload'
-            })
-            }
+            // }else{
+            // res.status(409).json({
+            //     status:'failed',
+            //     desc:'No file Upload'
+            // })
+            // }
             }else
             {
             res.status(200).json
             (
                 {
+                result_code:300,
                 status:'failed!',
                 desc:'Email Address Already Exists'
                 }
@@ -109,6 +116,7 @@ var storage = multer.diskStorage({
         {
         res.status(200).json(
             {
+            result_code:400,
             status:'failed',
             desc:'Company Name Already Exists'
             }
@@ -116,5 +124,13 @@ var storage = multer.diskStorage({
         }
     });
 });
+
+
+
+
+
+
+
+
 
 module.exports=create_enterprise;

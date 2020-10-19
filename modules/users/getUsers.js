@@ -14,6 +14,7 @@ getusers.get('/getusers',auth, function (req, res) {
             throw err;
         }
         res.status(200).json({
+            result_code:200,
             status:'Success',
             fields: uresult,
         });
@@ -36,6 +37,7 @@ getusers.get('/getuser/:correl_id',auth, function (req, res) {
             throw err;
         }
         res.status(200).json({
+            result_code:200,
             status:'Success',
             fields: uresult,
         });
@@ -54,6 +56,7 @@ getusers.get('/company/getuser/:company_name',auth,function(req,res){
 
             res.status(200).json(
                 {
+                    result_code:300,
                     status: 'failed',
                     desc: 'Company does not have user'
 
@@ -63,6 +66,7 @@ getusers.get('/company/getuser/:company_name',auth,function(req,res){
         }else{
             res.status(200).json(
                 {
+                result_code:200,
                 status:'Success',
                 fields:uresult
             }
@@ -105,6 +109,7 @@ getusers.get('/getconsultant/:correl_id',auth, function (req, res) {
                         }else
                         {
                             res.status(200).json({
+                                result_code:200,
                                 status:'Success',
                                 fields: uresult,techresult,addresult
                                 

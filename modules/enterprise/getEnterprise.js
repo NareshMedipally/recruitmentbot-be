@@ -27,6 +27,7 @@ get_enterprise.get('/getEnterprise/:correl_id',auth,function(req,res){
          else
          {
           res.status(200).json({
+            result_code:200,
             status:'success',
             fields:cresult,aresult
           });

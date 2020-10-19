@@ -26,6 +26,7 @@ delete_enterprise.delete('/deleteEnterprise/:correl_id',auth,function(req,res){
           }else
           {
             res.status(200).json({
+              result_code:200,
               status:'success',
               desc:'Record Deleted Successfully'
             })

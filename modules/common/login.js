@@ -155,6 +155,7 @@ login.put('/user/forgot-password/:correl_id',function(req,res){
                     //     });
                             
                             res.status(200).json({
+                                result_code:200,
                                 status:'success',
                                 desc: 'Password Changed Successfully'
                                 
@@ -164,6 +165,7 @@ login.put('/user/forgot-password/:correl_id',function(req,res){
               }
               else{
                 res.status(200).json({
+                    result_code:300,
                     status:'failed!',
                     desc: 'Invalid Email Address'
                     
@@ -183,6 +185,7 @@ login.put('/user/changePassword/:correl_id',auth,function(req,res){
     if(newPassword !== confirmPassword)
     {
         res.status(500).json({
+            result_code:500,
             status:'failed!',
             desc: 'New Password & Confirm Password Should be same!'
             
@@ -200,6 +203,7 @@ login.put('/user/changePassword/:correl_id',auth,function(req,res){
                         throw err;
                     }
                     res.status(200).json({
+                        result_code:200,
                         status:'Success',
                         desc: 'Password Updated Successfully!'
                         
@@ -208,6 +212,7 @@ login.put('/user/changePassword/:correl_id',auth,function(req,res){
             }else
             {
                 res.status(200).json({
+                    result_code:300,
                     status:'failed!',
                     desc: 'New Password and Username does not match!'
                     

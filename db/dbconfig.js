@@ -1,10 +1,18 @@
 const mysql = require('mysql');
 
+// var dbConnection = mysql.createPool({
+//   host: 'localhost',
+//   port: 3306,
+//   user: 'root',
+//   password: 'root@123',
+//   database: 'a10mi6nt_recruit_bot'
+// });
+
 var dbConnection = mysql.createPool({
-  host: 'localhost',
+  host: '111.118.215.187',
   port: 3306,
-  user: 'root',
-  password: 'root@123',
+  user: 'a10mi6nt_recruit',
+  password: 'recruit@2020',
   database: 'a10mi6nt_recruit_bot'
 });
 

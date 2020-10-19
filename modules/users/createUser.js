@@ -155,6 +155,7 @@ createuser.post('/createuser',auth, function (req, res) {
                         
                         res.status(200).json(
                             {
+                                result_code:200,
                                 status: 'success',
                                 desc: 'User Created Successfully'
 
@@ -166,6 +167,7 @@ createuser.post('/createuser',auth, function (req, res) {
             else {
                 res.status(200).json(
                     {
+                        result_code:300,
                         status: 'Failed',
                         desc: 'User Already Exists'
 
@@ -222,6 +224,7 @@ createuser.post('/createuser',auth, function (req, res) {
                         // });
                         res.status(200).json(
                             {
+                                result_code:200,
                                 status: 'success',
                                 desc: 'User Created Successfully'
 
@@ -233,6 +236,7 @@ createuser.post('/createuser',auth, function (req, res) {
             else {
                 res.status(200).json(
                     {
+                        result_code:300,
                         status: 'failed',
                         desc: 'User Already Exists'
 
@@ -290,6 +294,7 @@ createuser.post('/createuser',auth, function (req, res) {
                         // });
                         res.status(200).json(
                             {
+                                result_code:200,
                                 status: 'success',
                                 desc: 'User Created Successfully'
 
@@ -301,6 +306,7 @@ createuser.post('/createuser',auth, function (req, res) {
             else {
                 res.status(200).json(
                     {
+                        result_code:300,
                         status: 'Failed',
                         desc: 'User Already Exists'
 
@@ -314,6 +320,7 @@ createuser.post('/createuser',auth, function (req, res) {
         console.log("Role type invalid");
         res.status(200).json(
             {
+                result_code:400,
                 status: 'Failed',
                 desc: 'Unknown Role Type'
 
@@ -453,6 +460,7 @@ if(req.files){
                                             }
                                             res.status(200).json(
                                                 {
+                                                    result_code:200,
                                                     status: 'success',
                                                     desc: 'User Created Successfully'
                     
@@ -471,6 +479,7 @@ if(req.files){
                                             else {
                                                 res.status(200).json(
                                                     {
+                                                        result_code:200,
                                                         status: 'success',
                                                         desc: 'User Created Successfully'
                         
@@ -496,6 +505,7 @@ if(req.files){
                 else {
                     res.status(200).json(
                         {
+                            result_code:300,
                             status: 'Failed',
                             desc: 'User Already Exists'
 
@@ -508,6 +518,7 @@ if(req.files){
             console.log("Role type invalid");
             res.status(200).json(
                 {
+                    result_code:400,
                     status: 'Failed',
                     desc: 'Unknown Role Type'
 
@@ -518,8 +529,9 @@ if(req.files){
         console.log("no file found");
         res.status(409).json(
             {
-                            status:'failed',
-                            desc:'No file Upload'
+                result_code:409,
+                status:'failed',
+                desc:'No file Upload'
                         
             }
         )

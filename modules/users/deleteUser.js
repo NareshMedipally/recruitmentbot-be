@@ -20,6 +20,7 @@ deleteuser.delete('/deleteuser/:correl_id',auth, function(req, res)
         }
         res.status(200).json(
             {
+                result_code:200,
                 status: 'Success',
                 desc: 'User Deleted Successfully!'
 
@@ -35,7 +36,7 @@ deleteuser.delete('/deleteuser/:correl_id',auth, function(req, res)
 
   /*get single user based on correl_id parameter*/
 
-deleteuser.delete('/deleteconsultatnt/:correl_id',auth, function (req, res) {
+deleteuser.delete('/deleteconsultant/:correl_id',auth, function (req, res) {
 
   var correl_id = req.params.correl_id;
 
@@ -64,6 +65,7 @@ deleteuser.delete('/deleteconsultatnt/:correl_id',auth, function (req, res) {
                       }else
                       {
                           res.status(200).json({
+                              result_code:200,
                               status:'Success',
                               fields: uresult,techresult,addresult
                               
