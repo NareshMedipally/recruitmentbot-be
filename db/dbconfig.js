@@ -8,6 +8,8 @@ var dbConnection = mysql.createPool({
   database: 'a10mi6nt_recruit_bot'
 });
 
+
+
 dbConnection.getConnection(function(err) {
   if (err){ console.error('error connecting: ' + err);}
   console.log('connected!');

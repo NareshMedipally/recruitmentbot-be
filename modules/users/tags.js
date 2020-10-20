@@ -6,7 +6,7 @@ var auth = require('../../middleware/auth');
 
 
 
-/*post Single tag product*/
+/*Create tag */
 
 consultant_tag.post('/createtags',auth,function(req,res){
     var tags={
@@ -31,6 +31,7 @@ consultant_tag.post('/createtags',auth,function(req,res){
                 {
                     res.status(200).json(
                         {
+                            result_code:200,
                             status: 'success',
                             desc: 'Tag Created Successfully'
 
@@ -42,6 +43,7 @@ consultant_tag.post('/createtags',auth,function(req,res){
         {
             res.status(200).json(
                 {
+                    result_code:300,
                     status: 'failed',
                     desc: 'Tag Already Exists'
 
@@ -54,7 +56,7 @@ consultant_tag.post('/createtags',auth,function(req,res){
 
 
 
-/*get tag products  based on company name*/
+/*get tags - company wise*/
 
 consultant_tag.get('/gettags/:company_name',auth,function(req,res){
     var company_name = req.params.company_name;
@@ -64,6 +66,7 @@ consultant_tag.get('/gettags/:company_name',auth,function(req,res){
 
             res.status(200).json(
                 {
+                    result_code:300,
                     status: 'failed',
                     desc: 'No tags available for this company'
 
@@ -73,6 +76,7 @@ consultant_tag.get('/gettags/:company_name',auth,function(req,res){
         }else{
             res.status(200).json(
                 {
+                result_code:200,
                 status:'Success',
                 fields:tresult
             }
@@ -84,7 +88,7 @@ consultant_tag.get('/gettags/:company_name',auth,function(req,res){
 
 
 
-/*get Single tag based on tag_id parameter*/
+/*get tag info */
 
 consultant_tag.get('/gettag/:tag_id',auth, function (req, res) {
     var tag_id = req.params.tag_id;
@@ -96,6 +100,7 @@ consultant_tag.get('/gettag/:tag_id',auth, function (req, res) {
             throw err;
         }
         res.status(200).json({
+            result_code:200,
             status:'Success',
             fields: tresult,
         });
@@ -105,7 +110,7 @@ consultant_tag.get('/gettag/:tag_id',auth, function (req, res) {
 
 
 
-/*delete Single tag based on tag_id parameter*/
+/*delete tag*/
 
 consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
     var tag_id = req.params.tag_id;
@@ -115,6 +120,7 @@ consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
 
             res.status(200).json(
                 {
+                    result_code:300,
                     status: 'failed',
                     desc: 'Something Went Wrong! Please try again'
 
@@ -124,6 +130,7 @@ consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
         }else{
             res.status(200).json(
                 {
+                result_code:200,
                 status:'Success',
                 desc: 'Tag Deleted'
             }
@@ -135,19 +142,29 @@ consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
 
 
 
-/*update Single tag based on tag_id parameter*/
+/*update tag*/
 
 consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
     var tag_id=req.params.tag_id;
     var company_name=req.body.company_name;
     var tag_name=req.body.tag_name;
     var tag_desc=req.body.tag_desc;
-    var tag_type=req.body.tag_type;
-    dbConnection.query("SELECT * FROM tags WHERE tag_name=? AND company_name=?",[tag_name,company_name],
+    var tag_type='Technical';
+    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name],
     function(err,tresult){
-        console.log(tresult)
-        if(tresult.length<1)
+        console.log(tresult);
+        if(tresult.length>0)
         {
+            res.status(200).json(
+                {
+                result_code:300,
+                status:'failed!',
+                desc: 'Tag Already Exists'
+            }
+            );
+        }else
+        {
+
             var sqltag = `UPDATE tags SET tag_name="${tag_name}", tag_desc="${tag_desc}",tag_type="${tag_type}" WHERE tag_id=${tag_id}`;
             dbConnection.query(sqltag,function(err,results){
                 if(err)
@@ -158,20 +175,13 @@ consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
                 {
                     res.status(200).json(
                         {
+                        result_code:200,
                         status:'Success',
                         desc: 'Tag Updated'
                     }
                     ); 
                 }
             })
-        }else
-        {
-            res.status(200).json(
-                {
-                status:'failed!',
-                desc: 'Something Went Wrong! Please try again'
-            }
-            );
         }
     })
 })
