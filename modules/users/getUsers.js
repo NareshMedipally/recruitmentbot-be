@@ -4,6 +4,7 @@ const getusers = express.Router();
 var dbConnection = require('../../db/dbconfig');
 var auth = require('../../middleware/auth')
 
+
 /*get all users*/
 
 getusers.get('/getusers',auth, function (req, res) {
@@ -18,12 +19,14 @@ getusers.get('/getusers',auth, function (req, res) {
             status:'Success',
             fields: uresult,
         });
-    })
+    });
 
 
-})
+});
 
-/*get single user based on correl_id parameter*/
+
+
+/*get individual user info*/
 
 getusers.get('/getuser/:correl_id',auth, function (req, res) {
 
@@ -46,7 +49,8 @@ getusers.get('/getuser/:correl_id',auth, function (req, res) {
 });
 
 
-/*get  user based on company name parameter*/
+
+/*get users - company wise */
 
 getusers.get('/company/getuser/:company_name',auth,function(req,res){
     var company_name = req.params.company_name;
@@ -74,11 +78,11 @@ getusers.get('/company/getuser/:company_name',auth,function(req,res){
         }
 
     });
-})
+});
 
 
 
-/*get single Consultant based on correl_id parameter*/
+/*get Consultant info*/
 
 getusers.get('/getconsultant/:correl_id',auth, function (req, res) {
 
@@ -115,9 +119,9 @@ getusers.get('/getconsultant/:correl_id',auth, function (req, res) {
                                 
                             });
                         }
-                    })
+                    });
                 }
-            })
+            });
         }
 
     });

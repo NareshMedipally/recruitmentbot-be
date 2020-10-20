@@ -53,7 +53,7 @@ var transporter = nodemailer.createTransport({
     }
 });
 
-/*post single user product*/
+/*create user - superadmin, admin, recruiter */
 
 createuser.post('/createuser',auth, function (req, res) {
     var user_data = {
@@ -332,7 +332,8 @@ createuser.post('/createuser',auth, function (req, res) {
 
 
 
-/* POST Consultant User */
+/* Create User - Consultant */
+
 var cpUpload = upload.fields([{ name: 'resume', maxCount: 10 }, { name: 'certificate', maxCount: 8 },{ name: 'driving_license', maxCount: 1 },{name: 'visa', maxCount: 1}])
 createuser.post('/createconsultant',cpUpload,auth,function(req,res){
     console.log("req.body",req.body)

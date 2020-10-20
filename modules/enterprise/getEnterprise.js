@@ -5,7 +5,7 @@ var auth = require('../../middleware/auth');
 
 
 
-/*get single company based on correl_id parameter*/
+/*get enterprise/company info*/
 
 get_enterprise.get('/getEnterprise/:correl_id',auth,function(req,res){
 
@@ -39,7 +39,7 @@ get_enterprise.get('/getEnterprise/:correl_id',auth,function(req,res){
 
 
 
-/*get all company's*/
+/*get all enterprise's*/
 
 
 get_enterprise.get('/getEnterprise',auth,function(req,res){
@@ -60,6 +60,7 @@ get_enterprise.get('/getEnterprise',auth,function(req,res){
           else
           {
             res.status(200).json({
+              result_code:200,
               status:'success',
               fields:cresult,aresult
               

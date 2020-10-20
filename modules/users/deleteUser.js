@@ -5,7 +5,7 @@ var auth = require('../../middleware/auth');
 
 
 
-/*delete single user based on corel_id parameter*/
+/*delete user */
 
 deleteuser.delete('/deleteuser/:correl_id',auth, function(req, res) 
   {
@@ -34,7 +34,7 @@ deleteuser.delete('/deleteuser/:correl_id',auth, function(req, res)
 
 
 
-  /*get single user based on correl_id parameter*/
+/*delete consultant*/
 
 deleteuser.delete('/deleteconsultant/:correl_id',auth, function (req, res) {
 
@@ -66,9 +66,7 @@ deleteuser.delete('/deleteconsultant/:correl_id',auth, function (req, res) {
                       {
                           res.status(200).json({
                               result_code:200,
-                              status:'Success',
-                              fields: uresult,techresult,addresult
-                              
+                              status:'User Deleted Successfully!',
                           });
                       }
                   })

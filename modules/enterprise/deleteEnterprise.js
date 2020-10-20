@@ -4,7 +4,7 @@ var dbConnection = require('../../db/dbconfig');
 var auth = require('../../middleware/auth');
 
 
-/*delete single coompany based on corel_id parameter*/
+/*delete enterprise/company */
 
 delete_enterprise.delete('/deleteEnterprise/:correl_id',auth,function(req,res){
 

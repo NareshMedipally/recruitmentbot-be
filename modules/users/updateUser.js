@@ -38,7 +38,7 @@ var storage = multer.diskStorage({
 let upload = multer({storage})
 
 
-/*update single user based on correl_id parameter*/
+/*update user - admin,recruiter,superadmin*/
 
 updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
 {
@@ -84,16 +84,14 @@ updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
           else{
             res.status(200).json(
                 {
+                    result_code:200,
                     status: 'success',
                     desc: 'Record Updated Successfully'
 
                 }
             )
-            // resp_body.status = 'success';
-            // resp_body.msg = 'Record Updated Successfully';
-            // res.status(200).send([resp_body.status, resp_body.msg]);
           }
-      })
+      });
         
   }
   else if(role_type == 'Admin')
@@ -119,7 +117,7 @@ updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
             // resp_body.msg = 'Record Updated Successfully';
             // res.status(200).send([resp_body.status, resp_body.msg]);
           }
-      })
+      });
         
   }
   else if(role_type == 'Recruiter')
@@ -135,16 +133,14 @@ updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
           else{
             res.status(200).json(
                 {
+                    result_code:200,
                     status: 'success',
                     desc: 'Record Updated Successfully'
 
                 }
             )
-            // resp_body.status = 'success';
-            // resp_body.msg = 'Record Updated Successfully';
-            // res.status(200).send([resp_body.status, resp_body.msg]);
           }
-      })
+      });
         
   }
   else
@@ -157,9 +153,9 @@ updateuser.put('/updateuser/:correl_id',auth, (req,res) =>
 
 
 
-/*update botstatus  based on email_id parameter*/
+/*update botstatus*/
 
-updateuser.put('/botstatus',function(req,res){
+updateuser.put('/botstatus',auth,function(req,res){
     var bot_status=req.body.bot_status;
     var email_id = req.body.email_id;
 
@@ -173,24 +169,26 @@ updateuser.put('/botstatus',function(req,res){
        {
         res.status(200).json(
             {
+                result_code:200,
                 status: 'success',
                 desc: 'Bot Status Updated Successfully'
 
             }
         )
        }
-   })
+   });
 });
 
 
 
 
+/* update Consultant */
 
-/* POST Consultant User */
+
 var cpUpload = upload.fields([{ name: 'resume', maxCount: 10 }, { name: 'certificate', maxCount: 8 },{ name: 'driving_license', maxCount: 1 },{name: 'visa', maxCount: 1}])
 updateuser.put('/updateconsultant/:correl_id',cpUpload,auth,function(req,res){
     console.log("req.body",req.body)
-console.log("res.file",req.files)
+    console.log("res.file",req.files)
 if(req.files){
     var generalInfo = JSON.parse(req.body.generalInfo)
     var contactInfo = JSON.parse(req.body.contactInfo)
@@ -329,10 +327,10 @@ if(req.files){
                                         }
                                     )
                                 }
-                            })
+                            });
                         }
                     }
-                    })
+                    });
                 }
             });
         }    else {
@@ -357,7 +355,7 @@ if(req.files){
             }
         )
     }
-    })
+    });
 
 
 module.exports = updateuser;

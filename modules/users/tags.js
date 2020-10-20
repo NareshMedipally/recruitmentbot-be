@@ -6,7 +6,7 @@ var auth = require('../../middleware/auth');
 
 
 
-/*post Single tag product*/
+/*Create tag */
 
 consultant_tag.post('/createtags',auth,function(req,res){
     var tags={
@@ -56,7 +56,7 @@ consultant_tag.post('/createtags',auth,function(req,res){
 
 
 
-/*get tag products  based on company name*/
+/*get tags - company wise*/
 
 consultant_tag.get('/gettags/:company_name',auth,function(req,res){
     var company_name = req.params.company_name;
@@ -88,7 +88,7 @@ consultant_tag.get('/gettags/:company_name',auth,function(req,res){
 
 
 
-/*get Single tag based on tag_id parameter*/
+/*get tag info */
 
 consultant_tag.get('/gettag/:tag_id',auth, function (req, res) {
     var tag_id = req.params.tag_id;
@@ -110,7 +110,7 @@ consultant_tag.get('/gettag/:tag_id',auth, function (req, res) {
 
 
 
-/*delete Single tag based on tag_id parameter*/
+/*delete tag*/
 
 consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
     var tag_id = req.params.tag_id;
@@ -142,14 +142,14 @@ consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
 
 
 
-/*update Single tag based on tag_id parameter*/
+/*update tag*/
 
 consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
     var tag_id=req.params.tag_id;
     var company_name=req.body.company_name;
     var tag_name=req.body.tag_name;
     var tag_desc=req.body.tag_desc;
-    var tag_type=req.body.tag_type;
+    var tag_type='Technical';
     dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name],
     function(err,tresult){
         console.log(tresult);

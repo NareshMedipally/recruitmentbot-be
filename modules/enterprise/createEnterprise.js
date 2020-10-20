@@ -8,7 +8,7 @@ var auth = require('../../middleware/auth');
 
 
 
-var maxSize =  1024 * 1024;
+var maxSize =   500 * 1024;
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
       
@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
 
   var correl_id = uniqid();
 
-
+/* post single enterprise */
 
 var logoupload=upload.fields([{name:'company_logo',maxCount: 1}])
 create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
@@ -62,7 +62,7 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
         {
         dbConnection.query("SELECT * FROM company WHERE email_id=?",[company.email_id],
         function(err,result){
-            if(result.length>1)
+            if(result.length<1)
             {
             // if(req.file)
             // {
