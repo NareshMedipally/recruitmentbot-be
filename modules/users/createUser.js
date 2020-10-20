@@ -373,10 +373,10 @@ if(req.files){
         rate:generalInfo[0].rate,
         relocation:contactInfo[0].relocation,
         visa_status:otherInfo[0].visa_status,
-        visa_copy_loc:visaFile?visaFile.path:'',
+        visa_copy_loc:visaFile?'visa_docs/'+visaFile.filename:'',
         visa_valid_from:otherInfo[0].visa_valid_from,
         visa_valid_to:otherInfo[0].visa_valid_to,
-        DL_copy:drivingLicenseFile? drivingLicenseFile.path:'',
+        DL_copy:drivingLicenseFile? 'driving_docs/'+drivingLicenseFile.filename:'',
         DL_valid_from:otherInfo[0].DL_valid_from,
         DL_valid_to:otherInfo[0].DL_valid_to,
         role_id: req.body.role_type,
@@ -402,8 +402,8 @@ if(req.files){
         looking_for_job:technologyInfo[0].looking_for_job,
         subject_tag:technologyInfo[0].subject_tag,
         non_subject_tag:technologyInfo[0].non_subject_tag,
-        resume_loc:resumeFile?resumeFile[0].path:'',
-        certificate_loc: certificateFile?certificateFile[0].path:'',
+        resume_loc:resumeFile?'resume/'+resumeFile[0].filename:'',
+        certificate_loc: certificateFile?'certificates/'+certificateFile[0].filename:'',
         
     }
        
@@ -446,8 +446,8 @@ if(req.files){
                                         if(technologyInfo.length > 1){
                                             for (var i =0 ;i< technologyInfo.length ; i++){
                                                 var tech = technologyInfo[i]
-                                                var resume = resumeFile ? resumeFile[i].path :'';
-                                                var certificate = certificateFile ? certificateFile[i].path:'';
+                                                var resume = resumeFile ? 'resume/'+resumeFile[i].filename :'';
+                                                var certificate = certificateFile ? 'certificates/'+certificateFile[i].filename:'';
                                                 var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
                                                 var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,resume,certificate,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
                                                 dbConnection.query(sqltech,[VALUES],function(err,tresult){
