@@ -402,7 +402,7 @@ if(req.files){
         looking_for_job:technologyInfo[0].looking_for_job,
         subject_tag:technologyInfo[0].subject_tag,
         non_subject_tag:technologyInfo[0].non_subject_tag,
-        resume_loc:resumeFile?'resume/'+resumeFile[0].filename:'',
+        resume_loc:resumeFile?'profiles/'+resumeFile[0].filename:'',
         certificate_loc: certificateFile?'certificates/'+certificateFile[0].filename:'',
         
     }
