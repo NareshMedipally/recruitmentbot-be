@@ -50,11 +50,11 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
         zipcode:req.body.zipcode,
         city:req.body.city
     }
-        var direc_loc="uploads/"
-        var company_logo=company.company_logo;
+        // var direc_loc="uploads/"
+        // var company_logo=company.company_logo;
         
-        var filename = direc_loc.concat(company_logo)
-        console.log(filename);
+        // var filename = direc_loc.concat(company_logo)
+        // console.log(filename);
         
     dbConnection.query("SELECT * FROM  company WHERE company_name=?",[company.company_name],
     function(err,cresult){
@@ -67,7 +67,7 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
             // if(req.file)
             // {
             var sqlcom="INSERT INTO company(correl_id,company_name,company_logo,email_id,linkedIn_url,website_url,phone,tax_id,valid_from,valid_to,comments) VALUES ?";
-            var VALUES=[[correl_id,company.company_name,filename,company.email_id,company.linkedIn_url,company.website_url,company.phone,company.tax_id,company.valid_from,company.valid_to,company.comments]];
+            var VALUES=[[correl_id,company.company_name,company.company_logo,company.email_id,company.linkedIn_url,company.website_url,company.phone,company.tax_id,company.valid_from,company.valid_to,company.comments]];
             dbConnection.query(sqlcom,[VALUES],function(err){
                 if(err)
                 {

@@ -9,7 +9,6 @@ var dbConnection = mysql.createPool({
 });
 
 
-
 dbConnection.getConnection(function(err) {
   if (err){ console.error('error connecting: ' + err);}
   console.log('connected!');

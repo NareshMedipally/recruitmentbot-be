@@ -149,22 +149,12 @@ consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
     var company_name=req.body.company_name;
     var tag_name=req.body.tag_name;
     var tag_desc=req.body.tag_desc;
-    var tag_type='Technical';
-    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name],
+    var tag_type='technical';
+    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name,tag_id],
     function(err,tresult){
         console.log(tresult);
-        if(tresult.length>0)
+        if(tresult.length==1)
         {
-            res.status(200).json(
-                {
-                result_code:300,
-                status:'failed!',
-                desc: 'Tag Already Exists'
-            }
-            );
-        }else
-        {
-
             var sqltag = `UPDATE tags SET tag_name="${tag_name}", tag_desc="${tag_desc}",tag_type="${tag_type}" WHERE tag_id=${tag_id}`;
             dbConnection.query(sqltag,function(err,results){
                 if(err)
@@ -182,6 +172,17 @@ consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
                     ); 
                 }
             })
+        }else
+        {
+            res.status(200).json(
+                {
+                result_code:300,
+                status:'failed!',
+                desc: 'Tag Already Exists'
+            }
+            );    
+            
+
         }
     })
 })

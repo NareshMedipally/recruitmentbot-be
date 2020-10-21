@@ -66,7 +66,8 @@ deleteuser.delete('/deleteconsultant/:correl_id',auth, function (req, res) {
                       {
                           res.status(200).json({
                               result_code:200,
-                              status:'User Deleted Successfully!',
+                              status:'Success',
+                              desc:'User Deleted Successfully!'
                           });
                       }
                   })

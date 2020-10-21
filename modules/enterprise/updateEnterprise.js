@@ -4,7 +4,7 @@ const multer = require('multer');
 var dbConnection = require('../../db/dbconfig');
 var auth = require('../../middleware/auth');
 
-var maxSize = 500 * 1024;
+var maxSize =  500 * 1024;
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
       
@@ -19,9 +19,7 @@ var storage = multer.diskStorage({
   var logoupload=upload.fields([{name:'company_logo',maxCount: 1}])
 
 
-
-
-    /* update enterprise */
+  /* update enterprise */
 
   update_enterprise.put('/updateEnterprise/:correl_id',logoupload,auth,function(req,res){
     var correl_id=req.params.correl_id;  
@@ -48,12 +46,11 @@ var storage = multer.diskStorage({
         zipcode:req.body.zipcode,
         city:req.body.city
     }
-    var direc_loc="uploads/"
-    var company_logo=company.company_logo;
-    
-    var filename = direc_loc.concat(company_logo)
-    console.log(filename);
-    
+        // var direc_loc="uploads/"
+        // var company_logo=company.company_logo;
+        
+        // var filename = direc_loc.concat(company_logo)
+        // console.log(filename);
     dbConnection.query("SELECT * FROM company WHERE company_name=?",[company.company_name],
     function(err,cresult){
         console.log(cresult)
@@ -71,7 +68,7 @@ var storage = multer.diskStorage({
         }else
         {
                   
-            var sqlcom=`UPDATE company SET company_name="${company.company_name}",email_id="${company.email_id}",company_logo="${filename}", linkedIn_url="${company.linkedIn_url}",website_url="${company.website_url}",phone="${company.phone}",tax_id="${company.tax_id}",valid_from="${company.valid_from}",valid_to="${company.valid_to}",comments="${company.comments}" WHERE correl_id="${correl_id}"`;
+            var sqlcom=`UPDATE company SET company_name="${company.company_name}",email_id="${company.email_id}",company_logo="${company.company_logo}", linkedIn_url="${company.linkedIn_url}",website_url="${company.website_url}",phone="${company.phone}",tax_id="${company.tax_id}",valid_from="${company.valid_from}",valid_to="${company.valid_to}",comments="${company.comments}" WHERE correl_id="${correl_id}"`;
             dbConnection.query(sqlcom,function(err)
             {
                 if(err)
