@@ -197,7 +197,7 @@ createuser.post('/createuser',auth, function (req, res) {
                     }
                     else {
 
-                        readHTMLFile(__dirname + templatePath, function (err, html) {
+                        readHTMLFile( path.join(__dirname, '../../assets/welcome_email.html'), function (err, html) {
                             var template = handlebars.compile(html);
                             var replacements =
                             {
@@ -267,7 +267,7 @@ createuser.post('/createuser',auth, function (req, res) {
                     }
                     else {
 
-                        readHTMLFile(__dirname + templatePath, function (err, html) {
+                        readHTMLFile( path.join(__dirname, '../../assets/welcome_email.html'), function (err, html) {
                             var template = handlebars.compile(html);
                             var replacements =
                             {
