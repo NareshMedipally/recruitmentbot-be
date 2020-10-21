@@ -123,38 +123,38 @@ createuser.post('/createuser',auth, function (req, res) {
                     }
                     else {
 
-                        // readHTMLFile(__dirname + templatePath, function (err, html) {
-                        //     var template = handlebars.compile(html);
-                        //     var replacements =
-                        //     {
-                        //         name: user_data.first_name,
-                        //         username: user_data.email_id,
-                        //         password: password
-                        //     };
-                        //     var htmlToSend = template(replacements);
-                        //     var mailOptions =
-                        //     {
-                        //         from: 'mounika.impaxive@gmail.com',
-                        //         to: user_data.email_id,
-                        //         subject: 'Sending Email using Node.js',
-                        //         html: htmlToSend
-                        //     };
+                        readHTMLFile(__dirname + templatePath, function (err, html) {
+                            var template = handlebars.compile(html);
+                            var replacements =
+                            {
+                                name: user_data.first_name,
+                                username: user_data.email_id,
+                                password: password
+                            };
+                            var htmlToSend = template(replacements);
+                            var mailOptions =
+                            {
+                                from: 'mounika.impaxive@gmail.com',
+                                to: user_data.email_id,
+                                subject: 'Sending Email using Node.js',
+                                html: htmlToSend
+                            };
 
-                        //     transporter.sendMail(mailOptions, function (error, info) {
-                        //         if (error) {
-                        //             console.log(error);
-                        //         } else {
-                        //             console.log('Email sent to : ' + user_data.email_id + info.response);
-                        //             res.status(200).json(
-                        //                 {
-                        //                     status: 'success',
-                        //                     desc: 'User Created Successfully'
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                    console.log('Email sent to : ' + user_data.email_id + info.response);
+                                    res.status(200).json(
+                                        {
+                                            status: 'success',
+                                            desc: 'User Created Successfully'
 
-                        //                 }
-                        //             )
-                        //         }
-                        //     });
-                        // });
+                                        }
+                                    )
+                                }
+                            });
+                        });
                         
                         res.status(200).json(
                             {
@@ -197,34 +197,34 @@ createuser.post('/createuser',auth, function (req, res) {
                     }
                     else {
 
-                        // readHTMLFile(__dirname + templatePath, function (err, html) {
-                        //     var template = handlebars.compile(html);
-                        //     var replacements =
-                        //     {
-                        //         name: user_data.first_name,
-                        //         username: user_data.email_id,
-                        //         password: password
-                        //     };
-                        //     var htmlToSend = template(replacements);
-                        //     var mailOptions =
-                        //     {
-                        //         from: 'mounika.impaxive@gmail.com',
-                        //         to: user_data.email_id,
-                        //         subject: 'Sending Email using Node.js',
-                        //         html: htmlToSend
-                        //     };
+                        readHTMLFile(__dirname + templatePath, function (err, html) {
+                            var template = handlebars.compile(html);
+                            var replacements =
+                            {
+                                name: user_data.first_name,
+                                username: user_data.email_id,
+                                password: password
+                            };
+                            var htmlToSend = template(replacements);
+                            var mailOptions =
+                            {
+                                from: 'mounika.impaxive@gmail.com',
+                                to: user_data.email_id,
+                                subject: 'Sending Email using Node.js',
+                                html: htmlToSend
+                            };
 
-                        //     transporter.sendMail(mailOptions, function (error, info) {
-                        //         if (error) {
-                        //             console.log(error);
-                        //         } else {
-                        //             console.log('Email sent to : ' + user_data.email_id + info.response);
-                        //             resp_body.status = 'success';
-                        //             resp_body.msg = 'Admin Created Successfully';
-                        //             res.status(200).send([resp_body.status, resp_body.msg]);
-                        //         }
-                        //     });
-                        // });
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                    console.log('Email sent to : ' + user_data.email_id + info.response);
+                                    resp_body.status = 'success';
+                                    resp_body.msg = 'Admin Created Successfully';
+                                    res.status(200).send([resp_body.status, resp_body.msg]);
+                                }
+                            });
+                        });
                         res.status(200).json(
                             {
                                 result_code:200,
@@ -267,34 +267,34 @@ createuser.post('/createuser',auth, function (req, res) {
                     }
                     else {
 
-                        // readHTMLFile(__dirname + templatePath, function (err, html) {
-                        //     var template = handlebars.compile(html);
-                        //     var replacements =
-                        //     {
-                        //         name: user_data.first_name,
-                        //         username: user_data.email_id,
-                        //         password: password
-                        //     };
-                        //     var htmlToSend = template(replacements);
-                        //     var mailOptions =
-                        //     {
-                        //         from: 'mounika.impaxive@gmail.com',
-                        //         to: user_data.email_id,
-                        //         subject: 'Sending Email using Node.js',
-                        //         html: htmlToSend
-                        //     };
+                        readHTMLFile(__dirname + templatePath, function (err, html) {
+                            var template = handlebars.compile(html);
+                            var replacements =
+                            {
+                                name: user_data.first_name,
+                                username: user_data.email_id,
+                                password: password
+                            };
+                            var htmlToSend = template(replacements);
+                            var mailOptions =
+                            {
+                                from: 'mounika.impaxive@gmail.com',
+                                to: user_data.email_id,
+                                subject: 'Sending Email using Node.js',
+                                html: htmlToSend
+                            };
 
-                        //     transporter.sendMail(mailOptions, function (error, info) {
-                        //         if (error) {
-                        //             console.log(error);
-                        //         } else {
-                        //             console.log('Email sent to : ' + user_data.email_id + info.response);
-                        //             resp_body.status = 'success';
-                        //             resp_body.msg = 'Recruiter Created Successfully';
-                        //             res.status(200).send([resp_body.status, resp_body.msg]);
-                        //         }
-                        //     });
-                        // });
+                            transporter.sendMail(mailOptions, function (error, info) {
+                                if (error) {
+                                    console.log(error);
+                                } else {
+                                    console.log('Email sent to : ' + user_data.email_id + info.response);
+                                    resp_body.status = 'success';
+                                    resp_body.msg = 'Recruiter Created Successfully';
+                                    res.status(200).send([resp_body.status, resp_body.msg]);
+                                }
+                            });
+                        });
                         res.status(200).json(
                             {
                                 result_code:200,
