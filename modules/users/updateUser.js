@@ -252,8 +252,8 @@ if(req.files){
         looking_for_job:technologyInfo[0].looking_for_job,
         subject_tag:technologyInfo[0].subject_tag,
         non_subject_tag:technologyInfo[0].non_subject_tag,
-        resume_loc:resumeFile?resumeFile[0].path:'',
-        certificate_loc: certificateFile?certificateFile[0].path:'',
+        resume_loc:resumeFile?resumeFile[0].filename:'',
+        certificate_loc: certificateFile?certificateFile[0].filename:'',
         
     }
     var correl_id = req.body.correl_id;
@@ -268,7 +268,7 @@ if(req.files){
         if(role_type == "Consultant")
         {
  
-            var sql = `UPDATE user_profile SET first_name="${user_data.first_name}",last_name="${user_data.last_name}",phone="${user_data.phone}",dob="${user_data.dob}",education="${user_data.education}",rate="${user_data.rate}",relocation="${user_data.relocation}",visa_status="${user_data.visa_status}",visa_copy_loc="${user_data.visa_copy_loc}",visa_valid_from="${user_data.visa_valid_from}",visa_valid_to="${user_data.visa_valid_to}",DL_copy="${user_data.DL_copy}",DL_valid_from="${user_data.DL_valid_from}",DL_valid_to="${user_data.DL_valid_to}",comments="${user_data.comments}",email_template="${user_data.email_template}" WHERE correl_id="${correl_id}"`;
+            var sql = `UPDATE user_profile SET first_name="IFNULL(${user_data.first_name},first_name)",last_name="${user_data.last_name}",phone="${user_data.phone}",dob="${user_data.dob}",education="${user_data.education}",rate="${user_data.rate}",relocation="${user_data.relocation}",visa_status="${user_data.visa_status}",visa_copy_loc="${user_data.visa_copy_loc}",visa_valid_from="${user_data.visa_valid_from}",visa_valid_to="${user_data.visa_valid_to}",DL_copy="${user_data.DL_copy}",DL_valid_from="${user_data.DL_valid_from}",DL_valid_to="${user_data.DL_valid_to}",comments="${user_data.comments}",email_template="${user_data.email_template}" WHERE correl_id="${correl_id}"`;
             
             dbConnection.query(sql, [VALUES], function (err, insresult) {
                 if(err){
@@ -309,8 +309,8 @@ if(req.files){
                             }
                         else
                         {
-                                var resume = resumeFile ? resumeFile[0].path :'';
-                                var certificate = certificateFile ? certificateFile[0].path:'';
+                                var resume = resumeFile ? 'profiles/'+resumeFile[0].filename :'';
+                                var certificate = certificateFile ? 'certificates/'+certificateFile[0].filename:'';
                                 var sqltech = `UPDATE technology SET total_experience="${technology.total_experience}",usa_experience="${technology.usa_experience}",marketing_email_id="${technology.marketing_email_id}",marketing_phone="${technology.marketing_phone}",linkedIn_url="${technology.linkedIn_url}",resume_loc="${resume}",certificate_loc="${certificate}",tags="${technology.tags}",looking_for_job="${technology.looking_for_job}",subject_tag="${technology.subject_tag}",non_subject_tag="${technology.non_subject_tag}" WHERE correl_id="${correl_id}"`;
                                 dbConnection.query(sqltech,[VALUES],function(err,tresult)
                             {

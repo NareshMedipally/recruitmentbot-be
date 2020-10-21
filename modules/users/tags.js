@@ -144,47 +144,84 @@ consultant_tag.delete('/deletetags/:tag_id',auth,function(req,res){
 
 /*update tag*/
 
-consultant_tag.put('/updatetags/:tag_id',auth,function(req,res){
-    var tag_id=req.params.tag_id;
-    var company_name=req.body.company_name;
-    var tag_name=req.body.tag_name;
-    var tag_desc=req.body.tag_desc;
-    var tag_type='technical';
-    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?",[company_name,tag_name,tag_id],
-    function(err,tresult){
-        console.log(tresult);
-        if(tresult.length==1)
-        {
-            var sqltag = `UPDATE tags SET tag_name="${tag_name}", tag_desc="${tag_desc}",tag_type="${tag_type}" WHERE tag_id=${tag_id}`;
-            dbConnection.query(sqltag,function(err,results){
-                if(err)
-                {
-                    throw err;
-                }
-                else
-                {
-                    res.status(200).json(
-                        {
-                        result_code:200,
-                        status:'Success',
-                        desc: 'Tag Updated'
-                    }
-                    ); 
-                }
-            })
-        }else
-        {
-            res.status(200).json(
-                {
-                result_code:300,
-                status:'failed!',
-                desc: 'Tag Already Exists'
-            }
-            );    
-            
+consultant_tag.put('/updatetags/:tag_id', auth, function (req, res) {
+    console.log("req", req)
+    var tag_id = req.params.tag_id;
+    var company_name = req.body.company_name;
+    var tag_name = req.body.tag_name;
+    var tag_desc = req.body.tag_desc;
+    var tag_type = 'technical';
+    dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_id=?", [company_name, tag_id],
+        function (err, tresult) {
+            console.log('tresult', tresult.length);
+            let tagResponse = JSON.parse(JSON.stringify(tresult));
+            if (tresult.length == 1) {
+                dbConnection.query("SELECT * FROM tags WHERE company_name=? AND tag_name=?", [company_name, tag_name],
+                    function (err, response) {
 
-        }
-    })
+                        let result = JSON.parse(JSON.stringify(response));
+                        console.log("testss", result)
+
+                        if (err) {
+                            throw err
+                        } else {
+                            if (result.length > 0) {
+                                // if(result[0].tag_name.toLowerCase() == tag_name.toLowerCase()){
+                                if (tagResponse[0].tag_desc.toLowerCase() == tag_desc.toLowerCase() || tagResponse[0].tag_id != result[0].tag_id) {
+                                    res.status(200).json(
+                                        {
+                                            result_code: 300,
+                                            status: 'failed!',
+                                            desc: 'Tag Already Exists'
+                                        }
+                                    );
+                                } else {
+                                    var sqltag = `UPDATE tags SET tag_name="${tag_name}", tag_desc="${tag_desc}",tag_type="${tag_type}" WHERE tag_id=${tag_id}`;
+                                    dbConnection.query(sqltag, function (err, results) {
+                                        if (err) {
+                                            throw err;
+                                        }
+                                        else {
+                                            res.status(200).json(
+                                                {
+                                                    result_code: 200,
+                                                    status: 'Success',
+                                                    desc: 'Tag Updated'
+                                                }
+                                            );
+                                        }
+                                    })
+                                }
+
+
+                                // }else{
+
+                                // }
+                            } else {
+                                var sqltag = `UPDATE tags SET tag_name="${tag_name}", tag_desc="${tag_desc}",tag_type="${tag_type}" WHERE tag_id=${tag_id}`;
+                                dbConnection.query(sqltag, function (err, results) {
+                                    if (err) {
+                                        throw err;
+                                    }
+                                    else {
+                                        res.status(200).json(
+                                            {
+                                                result_code: 200,
+                                                status: 'Success',
+                                                desc: 'Tag Updated'
+                                            }
+                                        );
+                                    }
+                                })
+                            }
+
+                        }
+                    })
+
+            } else {
+
+            }
+        })
 })
 
 module.exports=consultant_tag;
