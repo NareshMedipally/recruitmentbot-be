@@ -47,6 +47,9 @@ var readHTMLFile = function (path, callback) {
 };
 var transporter = nodemailer.createTransport({
     service: 'gmail',
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
     auth: {
         user: 'mounika.impaxive@gmail.com',
         pass: 'Impaxive@2019'
