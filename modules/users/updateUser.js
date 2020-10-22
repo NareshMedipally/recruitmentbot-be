@@ -4,7 +4,7 @@ const updateuser = express.Router();
 var dbConnection = require('../../db/dbconfig');
 var auth=require('./../../middleware/auth');
 const multer = require('multer');
-
+const path = require('path');
 
 var resp_body={
     status:'',
@@ -15,18 +15,18 @@ var resp_body={
 
 var storage = multer.diskStorage({
     destination:(req,file,cb) =>{
-        if(file.fieldname == "resume")
+        if(file.fieldname == "upresume")
             {
             cb(null, path.join(__dirname, '../../uploads/profiles'))
             }
-           else if(file.fieldname == "certificate")
+           else if(file.fieldname == "upcertificate")
            {
                cb(null,  path.join(__dirname, '../../uploads/certificates'));
            }
-           else if(file.fieldname == "driving_license")
+           else if(file.fieldname == "upddriving_license")
            {
                cb(null,  path.join(__dirname, '../../uploads/driving_docs'))
-           }else if(file.fieldname == "visa")
+           }else if(file.fieldname == "upvisa")
            {
                cb(null, path.join(__dirname, '../../uploads/visa_docs'))
            }
@@ -185,10 +185,61 @@ updateuser.put('/botstatus',auth,function(req,res){
 /* update Consultant */
 
 
-var cpUpload = upload.fields([{ name: 'resume', maxCount: 10 }, { name: 'certificate', maxCount: 8 },{ name: 'driving_license', maxCount: 1 },{name: 'visa', maxCount: 1}])
-updateuser.put('/updateconsultant/:correl_id',cpUpload,auth,function(req,res){
+var cpUpload = upload.fields([{ name: 'upresume', maxCount: 10 }, { name: 'upcertificate', maxCount: 8 },{ name: 'updriving_license', maxCount: 1 },{name: 'upvisa', maxCount: 1}])
+  updateuser.put('/updateconsultant/:correl_id',cpUpload,auth,    function (req,res){
     console.log("req.body",req.body)
     console.log("res.file",req.files)
+    console.log("res.params",req.params)
+//     let existingUserData=[];
+//     let existingAddressData=[];
+//     let existingtechnologyData=[];
+   
+//     let p1 = 
+//     new Promise((resolve, reject) => {dbConnection.query("SELECT * FROM user_profile WHERE correl_id=?",[req.params.correl_id],
+//     function(err,tresult){
+//         console.log("tresult",tresult);
+//         existingUserData =   JSON.parse(JSON.stringify(tresult));
+//         console.log("existingUserData",existingUserData);
+//                         if (err) {
+//                             reject(err)
+//                             throw err
+                          
+//                         } else {
+//                             resolve( JSON.parse(JSON.stringify(tresult)))
+//                         }
+
+//     })
+// })
+//     let p2= 
+//     new Promise((resolve, reject) => {
+//         dbConnection.query("SELECT * FROM technology WHERE correl_id=?",[req.params.correl_id],
+//     function(err,tresult){
+//         if (err) {
+//             throw err
+//         } else {
+//             resolve( JSON.parse(JSON.stringify(tresult)))
+//         }
+        
+//     })
+// })
+//     let p3 =    
+//     new Promise((resolve, reject) => { dbConnection.query("SELECT * FROM address WHERE correl_id=?",[req.params.correl_id],
+//     function(err,tresult){
+//         if (err) {
+//             throw err
+//         } else {
+//             resolve( JSON.parse(JSON.stringify(tresult)))
+//         }
+        
+//     })
+// })
+// Promise.all([p1, p2, p3])
+//     .then(results => {
+//         console.log("promise",results)
+//     });
+//     console.log("existingUserData",existingUserData);
+//     console.log("existingAddressData",existingAddressData);
+//     console.log("existingtechnologyData",existingtechnologyData);
 if(req.files){
     var generalInfo = JSON.parse(req.body.generalInfo)
     var contactInfo = JSON.parse(req.body.contactInfo)
@@ -198,17 +249,17 @@ if(req.files){
     var certificateFile ="";
     var drivingLicenseFile="";
     var visaFile = "";
-    if(req.files.resume){
-         resumeFile = req.files.resume? req.files.resume:'';
+    if(req.files.upresume){
+         resumeFile = req.files.upresume? req.files.upresume:'';
     }
-    if(req.files.certificate){
-         certificateFile = req.files.certificate?req.files.certificate:'';
+    if(req.files.upcertificate){
+         certificateFile = req.files.upcertificate?req.files.upcertificate:'';
     }
-    if(req.files.driving_license){
-         drivingLicenseFile =req.files.driving_license[0]?req.files.driving_license[0]:''
+    if(req.files.updriving_license){
+         drivingLicenseFile =req.files.updriving_license[0]?req.files.updriving_license[0]:''
     }
-    if(req.files.visa){
-         visaFile =req.files.visa[0]?req.files.visa[0]:""
+    if(req.files.upvisa){
+         visaFile =req.files.upvisa[0]?req.files.upvisa[0]:""
     }
     
 
@@ -223,17 +274,44 @@ if(req.files){
         rate:generalInfo[0].rate,
         relocation:contactInfo[0].relocation,
         visa_status:otherInfo[0].visa_status,
-        visa_copy_loc:visaFile?visaFile.path:'',
-        visa_valid_from:otherInfo[0].visa_valid_from,
-        visa_valid_to:otherInfo[0].visa_valid_to,
-        DL_copy:drivingLicenseFile? drivingLicenseFile.path:'',
-        DL_valid_from:otherInfo[0].DL_valid_from,
-        DL_valid_to:otherInfo[0].DL_valid_to,
-        role_id: req.body.role_type,
+        visa_copy_loc:visaFile?'visa_docs/'+visaFile.filename:otherInfo[0].visa_copy_loc,
+        visa_valid_from:null,
+        visa_valid_to:null,
+        DL_copy:drivingLicenseFile?'driving_docs/'+ drivingLicenseFile.filename:otherInfo[0].DL_copy,
+        DL_valid_from:null,
+        DL_valid_to:null,
+        role_id: 4 ,
         expiry_date:generalInfo[0].expiry_date,
         email_template:req.body.email_template,
         comments: req.body.comments
     }
+    if(otherInfo[0].visa_valid_from == null){
+        user_data.visa_valid_from = null
+    }else{
+        user_data.visa_valid_from =otherInfo[0].visa_valid_from
+    }
+    
+    if(otherInfo[0].visa_valid_to == null){
+        user_data.visa_valid_to = null
+
+    }else{
+        user_data.visa_valid_to =otherInfo[0].visa_valid_to
+    }
+    
+    if(otherInfo[0]. DL_valid_from == null){
+        user_data.DL_valid_from = null
+
+    }
+    else{
+        user_data.DL_valid_from =otherInfo[0].DL_valid_from
+    }
+    if(otherInfo[0].DL_valid_to == null){
+        user_data.DL_valid_to = null
+
+    }else{
+        user_data.DL_valid_to =otherInfo[0].DL_valid_to
+    }
+
     var address = 
     {
         address_line_1:contactInfo[0].address_line_1,
@@ -252,11 +330,11 @@ if(req.files){
         looking_for_job:technologyInfo[0].looking_for_job,
         subject_tag:technologyInfo[0].subject_tag,
         non_subject_tag:technologyInfo[0].non_subject_tag,
-        resume_loc:resumeFile?resumeFile[0].filename:'',
-        certificate_loc: certificateFile?certificateFile[0].filename:'',
+        resume_loc:resumeFile? resumeFile[0].filename:technologyInfo[0].resume_loc,
+        certificate_loc: certificateFile?certificateFile[0].filename:technologyInfo[0].certificate_loc,
         
     }
-    var correl_id = req.body.correl_id;
+    var correl_id = req.params.correl_id;
         if (user_data.role_id == 4) {
             role_type = "Consultant";
         }
@@ -268,16 +346,16 @@ if(req.files){
         if(role_type == "Consultant")
         {
  
-            var sql = `UPDATE user_profile SET first_name="IFNULL(${user_data.first_name},first_name)",last_name="${user_data.last_name}",phone="${user_data.phone}",dob="${user_data.dob}",education="${user_data.education}",rate="${user_data.rate}",relocation="${user_data.relocation}",visa_status="${user_data.visa_status}",visa_copy_loc="${user_data.visa_copy_loc}",visa_valid_from="${user_data.visa_valid_from}",visa_valid_to="${user_data.visa_valid_to}",DL_copy="${user_data.DL_copy}",DL_valid_from="${user_data.DL_valid_from}",DL_valid_to="${user_data.DL_valid_to}",comments="${user_data.comments}",email_template="${user_data.email_template}" WHERE correl_id="${correl_id}"`;
+            var sql = `UPDATE user_profile SET first_name="${user_data.first_name}",last_name="${user_data.last_name}",phone="${user_data.phone}",dob="${user_data.dob}",education="${user_data.education}",rate="${user_data.rate}",relocation="${user_data.relocation}",visa_status="${user_data.visa_status}",visa_copy_loc="${user_data.visa_copy_loc}",visa_valid_from="${user_data.visa_valid_from}",visa_valid_to="${user_data.visa_valid_to}",DL_copy="${user_data.DL_copy}",DL_valid_from="${user_data.DL_valid_from}",DL_valid_to="${user_data.DL_valid_to}",comments="${user_data.comments}",email_template="${user_data.email_template}" WHERE correl_id="${correl_id}"`;
             
-            dbConnection.query(sql, [VALUES], function (err, insresult) {
+            dbConnection.query(sql, function (err, insresult) {
                 if(err){
                     throw err;
                 }
                 else{
                     var sqladd = `UPDATE address SET name="${user_data.first_name}", address_line_1="${address.address_line_1}",address_line_2="${address.address_line_2}",zipcode="${address.zipcode}",city="${address.city}" WHERE correl_id="${correl_id}"`;
                     
-                    dbConnection.query(sqladd,[VALUES],function(err,aresult){
+                    dbConnection.query(sqladd,function(err,aresult){
                         if(err){
                             throw err;
                         }
@@ -285,10 +363,10 @@ if(req.files){
                             if(technologyInfo.length > 1){
                                 for (var i =0 ;i< technologyInfo.length ; i++){
                                     var tech = technologyInfo[i]
-                                    var resume = resumeFile ? resumeFile[i].path :'';
-                                    var certificate = certificateFile ? certificateFile[i].path:'';
+                                    var resume = resumeFile ? 'resume/'+resumeFile[i].filename :technologyInfo[i].resume_loc;
+                                    var certificate = certificateFile ? 'certificates/'+certificateFile[i].filename:technologyInfo[i].certificate_loc;
                                     var sqltech = `UPDATE technology SET total_experience="${tech.total_experience}",usa_experience="${tech.usa_experience}",marketing_email_id="${tech.marketing_email_id}",marketing_phone="${tech.marketing_phone}",linkedIn_url="${tech.linkedIn_url}",resume_loc="${resume}",certificate_loc="${certificate}",tags="${tech.tags}",looking_for_job="${tech.looking_for_job}",subject_tag="${tech.subject_tag}",non_subject_tag="${tech.non_subject_tag}" WHERE correl_id="${correl_id}"`;
-                                    dbConnection.query(sqltech,[VALUES],function(err,tresult){
+                                    dbConnection.query(sqltech,function(err,tresult){
                                         if (err) {
                                             throw err;
                                         }
@@ -309,10 +387,10 @@ if(req.files){
                             }
                         else
                         {
-                                var resume = resumeFile ? 'profiles/'+resumeFile[0].filename :'';
-                                var certificate = certificateFile ? 'certificates/'+certificateFile[0].filename:'';
+                                var resume = resumeFile ? 'profiles/'+resumeFile[0].filename :technology.resume_loc;
+                                var certificate = certificateFile ? 'certificates/'+certificateFile[0].filename:technology.certificate_loc;
                                 var sqltech = `UPDATE technology SET total_experience="${technology.total_experience}",usa_experience="${technology.usa_experience}",marketing_email_id="${technology.marketing_email_id}",marketing_phone="${technology.marketing_phone}",linkedIn_url="${technology.linkedIn_url}",resume_loc="${resume}",certificate_loc="${certificate}",tags="${technology.tags}",looking_for_job="${technology.looking_for_job}",subject_tag="${technology.subject_tag}",non_subject_tag="${technology.non_subject_tag}" WHERE correl_id="${correl_id}"`;
-                                dbConnection.query(sqltech,[VALUES],function(err,tresult)
+                                dbConnection.query(sqltech,function(err,tresult)
                             {
                                 if (err) {
                                     throw err;
