@@ -13,6 +13,7 @@ var login=require('./modules/common/login');
 var consultant_tag=require('./modules/users/tags');
 var reports=require('./modules/users/report');
 var path = require('path')
+var consultantInfo = require('./modules/ai-engine/getConsultantInfo')
 
 //var createcompany=require('./modules/enterprise/createCompany');
 
@@ -33,6 +34,7 @@ app.use(login);
 app.use(consultant_tag);
 app.use(reports);
 // app.use(createcompany);
+app.use(consultantInfo)
 app.use(create_enterprise);
 app.use(get_enterprise);
 app.use(delete_enterprise);

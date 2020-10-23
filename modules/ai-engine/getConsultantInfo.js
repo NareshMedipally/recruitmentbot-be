@@ -9,7 +9,7 @@ botapi.post('/getconsultantinfo', function (req, res) {
     };
     console.log(request.req_id);
     console.log(request.email_id);
-    dbConnection.query("SELECT * from bot_active_recruiters WHERE recruiter_email_id=?", [request.email_id], function (err, cresult, fields) {
+    dbConnection.query("SELECT * from bot_active_recruiters WHERE consultant_primary_email_id=?", [request.email_id], function (err, cresult, fields) {
 console.log("cresult",cresult)
  if(cresult && cresult.length > 0){
         dbConnection.query("SELECT * from aiengine_source WHERE recruiter_mail_id=?", [request.email_id], function (err, uresult, fields) {
