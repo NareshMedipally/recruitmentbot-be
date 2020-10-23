@@ -23,7 +23,7 @@ var storage = multer.diskStorage({
            {
                cb(null,  path.join(__dirname, '../../uploads/certificates'));
            }
-           else if(file.fieldname == "upddriving_license")
+           else if(file.fieldname == "updriving_license")
            {
                cb(null,  path.join(__dirname, '../../uploads/driving_docs'))
            }else if(file.fieldname == "upvisa")
@@ -32,7 +32,7 @@ var storage = multer.diskStorage({
            }
     },
     filename:(req,file,cb) =>{
-      cb(null,Date.now() + file.filename)
+      cb(null,Date.now() + '-'+ file.originalname)
     }
   })
 let upload = multer({storage})

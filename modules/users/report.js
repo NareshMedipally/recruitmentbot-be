@@ -5,7 +5,7 @@ var auth = require('../../middleware/auth');
 
 
 
-reports.post('/reportlog',(req,res)=>{
+reports.post('/reportlog',auth,(req,res)=>{
     var primary_email_id=req.body.primary_email_id;
     var receiver_email_id=req.body.receiver_email_id;
     var subject=req.body.subject;
@@ -73,5 +73,97 @@ reports.post('/reportlog',(req,res)=>{
     })
 
 })
+
+
+
+/*get all report logs*/
+
+reports.get('/getreportlogs',auth, function (req, res) {
+    var sql = "SELECT * FROM reports";
+    dbConnection.query(sql, function (err, result) {
+        if (err) {
+
+            throw err;
+        }
+        res.status(200).json({
+            result_code:200,
+            status:'Success',
+            fields: result,
+        });
+    });
+
+
+});
+
+
+
+
+/*get report logs - company wise */
+
+reports.get('/getreportlogs/:company_name',auth,function(req,res){
+    var company_name = req.params.company_name;
+    var sql = `SELECT * FROM reports WHERE company_name="${company_name}"`;
+    dbConnection.query(sql, function (err,uresult) {
+        if(uresult.length<1){
+
+            res.status(200).json(
+                {
+                    result_code:300,
+                    status: 'failed',
+                    desc: 'Company does not have Report'
+
+                }
+            )
+
+        }else{
+            res.status(200).json(
+                {
+                result_code:200,
+                status:'Success',
+                fields:uresult
+            }
+            );
+        }
+
+    });
+});
+
+
+
+
+
+/*get report logs - recuiter wise */
+
+reports.get('/getreportlog/:primary_email_id',auth,function(req,res){
+    var primary_email_id = req.params.primary_email_id;
+    var sql = `SELECT * FROM reports WHERE primary_email_id="${primary_email_id}"`;
+    dbConnection.query(sql, function (err,uresult) {
+        if(uresult.length<1){
+
+            res.status(200).json(
+                {
+                    result_code:300,
+                    status: 'failed',
+                    desc: 'Recruiter does not have Report'
+
+                }
+            )
+
+        }else{
+            res.status(200).json(
+                {
+                result_code:200,
+                status:'Success',
+                fields:uresult
+            }
+            );
+        }
+
+    });
+});
+
+
+
+
 
 module.exports=reports;

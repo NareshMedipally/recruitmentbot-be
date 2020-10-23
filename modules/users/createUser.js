@@ -472,8 +472,8 @@ if(req.files){
                                             )
 
                                         }else{
-                                            var resume = resumeFile ? resumeFile[0].filename :'';
-                                            var certificate = certificateFile ? certificateFile[0].filename:'';
+                                            var resume = resumeFile ? 'profiles/'+resumeFile[0].filename :'';
+                                            var certificate = certificateFile ?'certificates/'+ certificateFile[0].filename:'';
                                         var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
                                         var VALUES = [[correl_id,technology.total_experience,technology.usa_experience,technology.marketing_email_id,technology.marketing_phone,technology.linkedIn_url,resume,certificate,technology.tags,technology.looking_for_job,technology.subject_tag,technology.non_subject_tag,user_data.email_id,'Technology']];
                                         dbConnection.query(sqltech,[VALUES],function(err,tresult){

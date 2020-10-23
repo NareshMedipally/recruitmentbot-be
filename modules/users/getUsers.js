@@ -7,22 +7,38 @@ var auth = require('../../middleware/auth')
 
 /*get all users*/
 
-getusers.get('/getusers',auth, function (req, res) {
+getusers.get('/getallusers',auth, function (req, res) {
     var sql = "SELECT * FROM user_profile";
     dbConnection.query(sql, function (err, uresult) {
         if (err) {
 
             throw err;
         }
-        res.status(200).json({
-            result_code:200,
-            status:'Success',
-            fields: uresult,
-        });
+        var sqladd="SELECT * FROM address";
+        dbConnection.query(sqladd,function(err,aresult){
+            if(err){
+                throw err;
+            }
+            var sqltech="SELECT * FROM technology";
+            dbConnection.query(sqltech,function(err,techresult){
+                if(err){
+                    throw err;
+                }
+                res.status(200).json({
+                    result_code:200,
+                    status:'Success',
+                    user_profile: uresult,
+                    address:aresult,
+                    technology:techresult
+                });
+            })
+        })
+       
     });
 
 
 });
+
 
 
 
