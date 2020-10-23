@@ -5,7 +5,7 @@ var auth = require('../../middleware/auth');
 
 
 
-reports.post('/reportlog',auth,(req,res)=>{
+reports.post('/reportlog',(req,res)=>{
     var primary_email_id=req.body.primary_email_id;
     var receiver_email_id=req.body.receiver_email_id;
     var subject=req.body.subject;
