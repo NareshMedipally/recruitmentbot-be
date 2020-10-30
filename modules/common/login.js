@@ -86,80 +86,81 @@ login.post('/user',function(req,res){
 
 /* forgot password */
 
-login.put('/user/forgot-password/:correl_id',function(req,res){
+login.put('/user/forgot-password',function(req,res){
     var email_id = req.body.email_id;
-    var correl_id = req.params.correl_id;
     var first_time_login ='Y';
     var password = generator.generate({
         length: 10,
         numbers: true
     });
 
-    // var readHTMLFile = function(path, callback) 
-    //     {
-    //       fs.readFile(path, {encoding: 'utf-8'}, function (err, html) 
-    //       {
-    //           if (err) 
-    //           {
-    //               throw err;
-    //               callback(err);
-    //           }
-    //           else 
-    //           {
-    //               callback(null, html);
-    //           }
-    //       });
-    //     };
-        // var transporter = nodemailer.createTransport({
-        //     service: 'gmail',
-        //     auth: {
-        //       user: 'mounika.impaxive@gmail.com',
-        //       pass: 'Impaxive@2019'
-        //     }
-        //   });
-          dbConnection.query("SELECT * FROM user_profile WHERE email_id=? AND correl_id=?",[email_id,correl_id],
+    var readHTMLFile = function(path, callback) 
+        {
+          fs.readFile(path, {encoding: 'utf-8'}, function (err, html) 
+          {
+              if (err) 
+              {
+                  throw err;
+                  callback(err);
+              }
+              else 
+              {
+                  callback(null, html);
+              }
+          });
+        };
+        var transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+              user: 'mounika.impaxive@gmail.com',
+              pass: 'Impaxive@2019'
+            }
+          });
+          dbConnection.query("SELECT * FROM user_profile WHERE email_id=?",[email_id],
           function(err,fresult){
               if(fresult.length==1){
-                var sqlforgot = `UPDATE user_profile SET password="${password}",first_time_login="${first_time_login}" WHERE email_id="${email_id}" AND correl_id="${correl_id}"`;
+                var fname=fresult[0].first_name;
+                console.log(fname)
+                var sqlforgot = `UPDATE user_profile SET password="${password}",first_time_login="${first_time_login}" WHERE email_id="${email_id}"`;
                 dbConnection.query(sqlforgot,function(err,result){
                     if(err)
                     {
                         throw err;
                     }else
                     {
-                    // readHTMLFile(__dirname + templatePath, function(err, html) 
-                    //     {
-                    //     var template = handlebars.compile(html);
-                    //     var replacements = 
-                    //     {
-                    //         // name:first_name,
-                    //         username: email_id,
-                    //         password:password
+                    readHTMLFile(__dirname + templatePath, function(err, html) 
+                        {
+                        var template = handlebars.compile(html);
+                        var replacements = 
+                        {
+                            name:fname,
+                            username: email_id,
+                            password:password
             
-                    //     };
-                    //     var htmlToSend = template(replacements);
-                    //     var mailOptions = 
-                    //     {
-                    //             from: 'mounika.impaxive@gmail.com',
-                    //             to: email_id,
-                    //             subject: 'Sending Email using Node.js',
-                    //             html : htmlToSend
-                    //     };
+                        };
+                        var htmlToSend = template(replacements);
+                        var mailOptions = 
+                        {
+                                from: 'mounika.impaxive@gmail.com',
+                                to: email_id,
+                                subject: 'Sending Email using Node.js',
+                                html : htmlToSend
+                        };
                         
-                    //     transporter.sendMail(mailOptions, function(error, info)
-                    //     {
-                    //         if (error) 
-                    //         {
-                    //         console.log(error);
-                    //         } else 
-                    //         {
-                    //         console.log('Email sent to : ' +email_id + info.response);
-                    //         resp_body.status='success';
-                    //         resp_body.msg='Password Changed Successfully';
-                    //         res.status(200).send([resp_body.status,resp_body.msg]);
-                    //         }
-                    //     });
-                    //     });
+                        transporter.sendMail(mailOptions, function(error, info)
+                        {
+                            if (error) 
+                            {
+                            console.log(error);
+                            } else 
+                            {
+                            console.log('Email sent to : ' +email_id + info.response);
+                            resp_body.status='success';
+                            resp_body.msg='Password Changed Successfully';
+                            res.status(200).send([resp_body.status,resp_body.msg]);
+                            }
+                        });
+                        });
                             
                             res.status(200).json({
                                 result_code:200,
