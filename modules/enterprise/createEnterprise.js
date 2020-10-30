@@ -138,8 +138,9 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
             }
         }
       
+    }
     });
-}
+
 });
 
 
