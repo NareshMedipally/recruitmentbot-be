@@ -21,7 +21,8 @@ var storage = multer.diskStorage({
   const upload = multer({storage,limits: { fileSize: maxSize }})
 
 
-  
+  var correl_id = uniqid();
+
 /* post single enterprise */
 
 var logoupload=upload.fields([{name:'company_logo',maxCount: 1}])
@@ -31,7 +32,6 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
     if(req.files.company_logo){
         logoFile = req.files.company_logo? req.files.company_logo:'';
     }
-    var correl_id = uniqid();
     var company={
       company_name : req.body.company_name,
       email_id: req.body.email_id,
@@ -59,12 +59,14 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
         
     dbConnection.query("SELECT * FROM  company WHERE company_name=?",[company.company_name],
     function(err,cresult){
+        let tresult = JSON.parse(JSON.stringify(cresult));
+        if(tresult){
         console.log("cresult",cresult)
         console.log("cresult",cresult.length)
         if(err){
             throw err
         }else{
-            if(cresult.length == 0)
+            if(tresult.length == 0)
             {
             dbConnection.query("SELECT * FROM company WHERE email_id=?",[company.email_id],
             function(err,result){
@@ -137,7 +139,9 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
             }
         }
       
+    }
     });
+
 });
 
 
