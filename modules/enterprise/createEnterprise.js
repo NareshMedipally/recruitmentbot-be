@@ -59,6 +59,7 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
         
     dbConnection.query("SELECT * FROM  company WHERE company_name=?",[company.company_name],
     function(err,cresult){
+        if(cresult){
         console.log("cresult",cresult)
         console.log("cresult",cresult.length)
         if(err){
@@ -138,6 +139,7 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
         }
       
     });
+}
 });
 
 
