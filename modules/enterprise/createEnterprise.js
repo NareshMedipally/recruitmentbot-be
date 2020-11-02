@@ -86,8 +86,8 @@ create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
                         throw err;
                         }else
                         {
-                        var slqadd="INSERT INTO address(correl_id,name,email_id,address_line_1,address_line_2,zipcode,city) VALUES ?";
-                        var VALUES=[[correl_id,company.company_name,company.email_id,address.address_line_1,address.address_line_2,address.zipcode,address.city]];
+                        var slqadd="INSERT INTO address(correl_id,name,type,email_id,address_line_1,address_line_2,zipcode,city) VALUES ?";
+                        var VALUES=[[correl_id,company.company_name,'company',company.email_id,address.address_line_1,address.address_line_2,address.zipcode,address.city]];
                         dbConnection.query(slqadd,[VALUES],function(err){
                             console.log("here");
                             if(err)
