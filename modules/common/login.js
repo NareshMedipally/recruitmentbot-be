@@ -12,6 +12,7 @@ var resp_body={
     status:'',
     msg:''
 }
+const path = require('path');
 process.env.SECRET_KEY="thisismysecretkey";
 
 /* user login */
@@ -131,7 +132,7 @@ login.put('/user/forgot-password',function(req,res){
                         throw err;
                     }else
                     {
-                    readHTMLFile(_dirname, '../../assets/forgot_email.html', function(err, html) 
+                    readHTMLFile(path.join(_dirname, '../../assets/forgot_email.html'), function(err, html) 
                         {
                         var template = handlebars.compile(html);
                         var replacements = 
