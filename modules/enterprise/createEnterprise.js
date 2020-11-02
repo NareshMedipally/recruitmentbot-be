@@ -21,13 +21,14 @@ var storage = multer.diskStorage({
   const upload = multer({storage,limits: { fileSize: maxSize }})
 
 
-  var correl_id = uniqid();
+  
 
 /* post single enterprise */
 
 var logoupload=upload.fields([{name:'company_logo',maxCount: 1}])
 create_enterprise.post('/createEnterprise',logoupload,auth,function(req,res){
     console.log("req.body",req.body)
+    var correl_id = uniqid();
     var logoFile ="";
     if(req.files.company_logo){
         logoFile = req.files.company_logo? req.files.company_logo:'';
