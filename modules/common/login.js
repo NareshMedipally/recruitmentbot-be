@@ -132,7 +132,7 @@ login.put('/user/forgot-password',function(req,res){
                         throw err;
                     }else
                     {
-                    readHTMLFile(path.join(_dirname, '../../assets/forgot_email.html'), function(err, html) 
+                    readHTMLFile(path.join(__dirname, '../../assets/forgot_email.html'), function(err, html)   
                         {
                         var template = handlebars.compile(html);
                         var replacements = 
