@@ -346,6 +346,8 @@ if(req.files){
     var contactInfo = JSON.parse(req.body.contactInfo)
     var technologyInfo = JSON.parse(req.body.technology)
     var otherInfo = JSON.parse(req.body.otherInfo)
+    var changedResume = JSON.parse(req.body.changedResume)
+    var changedCert = JSON.parse(req.body.changedCertificate)
     var resumeFile ="";
     var certificateFile ="";
     var drivingLicenseFile="";
@@ -449,8 +451,23 @@ if(req.files){
                                         if(technologyInfo.length > 1){
                                             for (var i =0 ;i< technologyInfo.length ; i++){
                                                 var tech = technologyInfo[i]
-                                                var resume = resumeFile ? 'resume/'+resumeFile[i].filename :'';
-                                                var certificate = certificateFile ? 'certificates/'+certificateFile[i].filename:'';
+                                                let resume 
+                                                let certificate
+                                                if(changedResume[i]){
+                                                    console.log("changedResume[i]",changedResume[i])
+                                                  let actualfile =   resumeFile.filter(x=>x.originalname == changedResume[i])
+                                                     resume =  'resume/'+ actualfile[0].filename;
+                                                     console.log("resume",resume)
+                                                }else{
+                                                     resume = ""
+                                                }
+            
+                                                  if(changedCert[i]){
+                                                    let actualfile =   certificateFile.filter(x=>x.originalname == changedCert[i])
+                                                    certificate =  'certificates/'+ actualfile[0].filename;
+                                                  }else{
+                                                    certificate = ""
+                                                  }
                                                 var sqltech = "INSERT INTO technology(correl_id,total_experience,usa_experience,marketing_email_id,marketing_phone,linkedIn_url,resume_loc,certificate_loc,tags,looking_for_job,subject_tag,non_subject_tag,primary_email_id,technology_name) VALUES ?";
                                                 var VALUES = [[correl_id,tech.total_experience,tech.usa_experience,tech.marketing_email_id,tech.marketing_phone,tech.linkedIn_url,resume,certificate,tech.tags,tech.looking_for_job,tech.subject_tag,tech.non_subject_tag,user_data.email_id,'Technology']];
                                                 dbConnection.query(sqltech,[VALUES],function(err,tresult){

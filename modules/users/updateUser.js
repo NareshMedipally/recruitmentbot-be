@@ -245,10 +245,14 @@ if(req.files){
     var contactInfo = JSON.parse(req.body.contactInfo)
     var technologyInfo = JSON.parse(req.body.technology)
     var otherInfo = JSON.parse(req.body.otherInfo)
+    var changedResume = JSON.parse(req.body.changedResume)
+    var changedCert = JSON.parse(req.body.changedCertificate)
     var resumeFile ="";
     var certificateFile ="";
     var drivingLicenseFile="";
     var visaFile = "";
+    console.log("changedResume",changedResume);
+    console.log("technologyInfo",technologyInfo.length);
     if(req.files.upresume){
          resumeFile = req.files.upresume? req.files.upresume:'';
     }
@@ -363,9 +367,27 @@ if(req.files){
                             if(technologyInfo.length > 1){
                                 for (var i =0 ;i< technologyInfo.length ; i++){
                                     var tech = technologyInfo[i]
-                                    var resume = resumeFile ? 'resume/'+resumeFile[i].filename :technologyInfo[i].resume_loc;
-                                    var certificate = certificateFile ? 'certificates/'+certificateFile[i].filename:technologyInfo[i].certificate_loc;
-                                    var sqltech = `UPDATE technology SET total_experience="${tech.total_experience}",usa_experience="${tech.usa_experience}",marketing_email_id="${tech.marketing_email_id}",marketing_phone="${tech.marketing_phone}",linkedIn_url="${tech.linkedIn_url}",resume_loc="${resume}",certificate_loc="${certificate}",tags="${tech.tags}",looking_for_job="${tech.looking_for_job}",subject_tag="${tech.subject_tag}",non_subject_tag="${tech.non_subject_tag}" WHERE correl_id="${correl_id}"`;
+                                    let resume 
+                                    let certificate
+                                    if(changedResume[i]){
+                                        console.log("changedResume[i]",changedResume[i])
+                                      let actualfile =   resumeFile.filter(x=>x.originalname == changedResume[i])
+                                      console.log("changedResume[i] actualfile",actualfile)
+                                         resume =  'profiles/'+ actualfile[0].filename;
+                                         console.log("resume",resume)
+                                    }else{
+                                         resume = technologyInfo[i].resume_loc;
+                                    }
+
+                                      if(changedCert[i]){
+                                        let actualfile =   certificateFile.filter(x=>x.originalname == changedCert[i])
+                                        certificate =  'certificates/'+ actualfile[0].filename;
+                                      }else{
+                                        certificate = technologyInfo[i].certificate_loc
+                                      }
+                                  
+                                  //  var certificate = certificateFile ? 'certificates/'+certificateFile[i].filename:technologyInfo[i].certificate_loc;
+                                    var sqltech = `UPDATE technology SET total_experience="${tech.total_experience}",usa_experience="${tech.usa_experience}",marketing_email_id="${tech.marketing_email_id}",marketing_phone="${tech.marketing_phone}",linkedIn_url="${tech.linkedIn_url}",resume_loc="${resume}",certificate_loc="${certificate}",tags="${tech.tags}",looking_for_job="${tech.looking_for_job}",subject_tag="${tech.subject_tag}",non_subject_tag="${tech.non_subject_tag}" WHERE technology_id="${tech.technology_id}"`;
                                     dbConnection.query(sqltech,function(err,tresult){
                                         if (err) {
                                             throw err;
