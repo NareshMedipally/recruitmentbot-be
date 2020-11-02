@@ -111,6 +111,9 @@ login.put('/user/forgot-password',function(req,res){
         };
         var transporter = nodemailer.createTransport({
             service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 465,
+            secure: true,
             auth: {
               user: 'mounika.impaxive@gmail.com',
               pass: 'Impaxive@2019'
@@ -128,7 +131,7 @@ login.put('/user/forgot-password',function(req,res){
                         throw err;
                     }else
                     {
-                    readHTMLFile(__dirname + templatePath, function(err, html) 
+                    readHTMLFile(_dirname, '../../assets/forgot_email.html', function(err, html) 
                         {
                         var template = handlebars.compile(html);
                         var replacements = 
