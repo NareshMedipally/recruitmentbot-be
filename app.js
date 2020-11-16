@@ -14,7 +14,8 @@ var consultant_tag=require('./modules/users/tags');
 var reports=require('./modules/users/report');
 var path = require('path')
 var consultantInfo = require('./modules/ai-engine/getConsultantInfo')
-var stats = require('./modules/users/stats')
+var stats = require('./modules/users/stats');
+var email_auth=require('./modules/common/email_auth');
 
 //var createcompany=require('./modules/enterprise/createCompany');
 
@@ -41,6 +42,7 @@ app.use(create_enterprise);
 app.use(get_enterprise);
 app.use(delete_enterprise);
 app.use(update_enterprise);
+app.use(email_auth);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use('/files', express.static(path.join(__dirname, '/uploads')));
