@@ -17,12 +17,12 @@ var consultantInfo = require('./modules/ai-engine/getConsultantInfo')
 var stats = require('./modules/users/stats');
 var email_auth=require('./modules/common/email_auth');
 var fs = require('fs');
-var http = require('http');
-var https = require('https');
-var options = {
-  key: fs.readFileSync('/etc/nginx/ssl/hireswing.key'),
-  cert: fs.readFileSync('/etc/nginx/ssl/hireswing_chained.crt'),
-}
+// var http = require('http');
+// var https = require('https');
+// var options = {
+//   key: fs.readFileSync('/etc/nginx/ssl/hireswing.key'),
+//   cert: fs.readFileSync('/etc/nginx/ssl/hireswing_chained.crt'),
+// }
 
 //var createcompany=require('./modules/enterprise/createCompany');
 
@@ -68,11 +68,11 @@ app.use((req, res, next) => {
 });
 
 // Start node server
-// app.listen(port, () => {
-//   console.log('Express server listening on port', port)
-// });
-var server = https.createServer(options, app).listen(port, function(){
-  console.log("Express server listening on port " + port);
+app.listen(port, () => {
+  console.log('Express server listening on port', port)
 });
+// var server = https.createServer(options, app).listen(port, function(){
+//   console.log("Express server listening on port " + port);
+// });
 
 
