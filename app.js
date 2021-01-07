@@ -52,7 +52,7 @@ app.use('/api',update_enterprise);
 app.use('/api',email_auth);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
-app.use('/files', express.static(path.join(__dirname, '/uploads')));
+app.use('/api/files', express.static(path.join(__dirname, '/uploads')));
 
 
 app.use((req, res, next) => {
