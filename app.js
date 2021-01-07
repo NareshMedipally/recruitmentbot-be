@@ -35,21 +35,21 @@ const multer = require('multer')
 var cors = require('cors');
 app.use(cors());
 app.use(express.json());
-app.use(createuser);
-app.use(deleteuser);
-app.use(updateuser);
-app.use(getusers);
-app.use(login);
-app.use(consultant_tag);
-app.use(reports);
-app.use(stats)
+app.use('/api',createuser);
+app.use('/api',deleteuser);
+app.use('/api',updateuser);
+app.use('/api',getusers);
+app.use('/api',login);
+app.use('/api',consultant_tag);
+app.use('/api',reports);
+app.use('/api',stats)
 // app.use(createcompany);
-app.use(consultantInfo)
-app.use(create_enterprise);
-app.use(get_enterprise);
-app.use(delete_enterprise);
-app.use(update_enterprise);
-app.use(email_auth);
+app.use('/api',consultantInfo)
+app.use('/api',create_enterprise);
+app.use('/api',get_enterprise);
+app.use('/api',delete_enterprise);
+app.use('/api',update_enterprise);
+app.use('/api',email_auth);
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}))
 app.use('/files', express.static(path.join(__dirname, '/uploads')));
