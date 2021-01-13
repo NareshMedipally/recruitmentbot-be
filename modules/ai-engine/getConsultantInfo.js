@@ -41,8 +41,8 @@ console.log("cresult",cresult)
     
                     status: 'Active',
                  ' consultant_Info' :uresult,
-                'cc_email_id':userResult.cc_email_id,
-                'bcc_email_id':userResult.bcc_email_id,
+                'cc_email_id':userResult[0].cc_email_id,
+                'bcc_email_id':userResult[0].bcc_email_id,
                 "mail_template":"Hi,Please find the attached resumes"
 
                     // consultantinfo({
