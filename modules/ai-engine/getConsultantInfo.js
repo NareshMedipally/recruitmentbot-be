@@ -12,7 +12,15 @@ botapi.post('/getconsultantinfo', function (req, res) {
     dbConnection.query("SELECT * from bot_active_recruiters WHERE recruiter_primary_email_id=?", [request.email_id], function (err, cresult, fields) {
 console.log("cresult",cresult)
  if(cresult && cresult.length > 0){
-        dbConnection.query("SELECT * from aiengine_source WHERE recruiter_mail_id=?", [request.email_id], function (err, uresult, fields) {
+    dbConnection.query('SELECT * FROM user_profile WHERE email_id =?', [request.email_id], function (err, result) {
+        console.log(result)
+        if (err) 
+        {
+            throw err;
+        }
+        else
+        {
+            dbConnection.query("SELECT * from aiengine_source WHERE recruiter_mail_id=?", [request.email_id], function (err, uresult, fields) {
                 console.log("uresult",uresult)
                 if (err) {
 
@@ -32,7 +40,10 @@ console.log("cresult",cresult)
     
                     status: 'Active',
                  ' consultant_Info' :uresult,
-                    "mail_template":"Hi,Please find the attached resumes"
+                'cc_email_id':result.cc_email_id,
+                'bcc_email_id':result.bcc_email_id,
+                "mail_template":"Hi,Please find the attached resumes"
+
                     // consultantinfo({
                     //     profile_location:uresult.profile_location,
                     //     tech_tags:uresult.tech_tags,
@@ -42,6 +53,8 @@ console.log("cresult",cresult)
                 // })
             });
         });
+        }
+    });
     }
     else{
         res.status(200).json(
