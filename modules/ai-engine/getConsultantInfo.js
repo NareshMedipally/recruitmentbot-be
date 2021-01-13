@@ -13,7 +13,8 @@ botapi.post('/getconsultantinfo', function (req, res) {
 console.log("cresult",cresult)
  if(cresult && cresult.length > 0){
     dbConnection.query('SELECT * FROM user_profile WHERE email_id =?', [request.email_id], function (err, result) {
-        console.log(result)
+       let userResult = JSON.parse(JSON.stringify(result))
+       console.log("userResult",userResult)
         if (err) 
         {
             throw err;
@@ -40,8 +41,8 @@ console.log("cresult",cresult)
     
                     status: 'Active',
                  ' consultant_Info' :uresult,
-                'cc_email_id':result.cc_email_id,
-                'bcc_email_id':result.bcc_email_id,
+                'cc_email_id':userResult.cc_email_id,
+                'bcc_email_id':userResult.bcc_email_id,
                 "mail_template":"Hi,Please find the attached resumes"
 
                     // consultantinfo({
